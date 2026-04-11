@@ -1,5 +1,3 @@
-"use client";
-
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useDispatch, useSelector } from "react-redux";
 import { api } from "@/lib/api";

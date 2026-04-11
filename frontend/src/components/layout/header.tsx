@@ -1,4 +1,4 @@
-import Link from "next/link";
+import { Link } from "react-router-dom";
 
 const menuItems = [
   { label: "Trang chủ", href: "/" },
@@ -11,7 +11,7 @@ export const Header = () => {
   return (
     <header className="sticky top-0 z-10 border-b border-zinc-200 bg-white/95 backdrop-blur">
       <div className="mx-auto flex w-full max-w-6xl flex-wrap items-center gap-4 px-4 py-3 sm:px-6">
-        <Link href="/" className="text-xl font-black tracking-tight text-zinc-900">
+        <Link to="/" className="text-xl font-black tracking-tight text-zinc-900">
           MOVIEHUB
         </Link>
 
@@ -20,7 +20,7 @@ export const Header = () => {
             {menuItems.map((item) => (
               <li key={item.label}>
                 <Link
-                  href={item.href}
+                  to={item.href}
                   className="rounded-full px-3 py-2 text-sm font-medium text-zinc-700 transition hover:bg-zinc-100 hover:text-zinc-950"
                 >
                   {item.label}

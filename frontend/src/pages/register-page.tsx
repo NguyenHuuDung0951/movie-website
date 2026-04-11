@@ -1,5 +1,5 @@
 import { AuthForm } from "@/components/auth/auth-form";
 
-export default function RegisterPage() {
+export const RegisterPage = () => {
   return <AuthForm mode="register" />;
-}
+};

@@ -3,7 +3,7 @@
 Workspace includes:
 
 - backend: Express + TypeScript + MongoDB
-- frontend: Next.js App Router + TypeScript
+- frontend: React + Vite + TypeScript
 
 ## Requirements
 

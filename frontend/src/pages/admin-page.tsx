@@ -1,4 +1,4 @@
-export default function AdminPage() {
+export const AdminPage = () => {
   return (
     <main className="mx-auto mt-16 w-full max-w-3xl px-6">
       <h1 className="text-3xl font-bold">Bảng điều khiển Admin</h1>
@@ -7,4 +7,4 @@ export default function AdminPage() {
       </p>
     </main>
   );
-}
+};

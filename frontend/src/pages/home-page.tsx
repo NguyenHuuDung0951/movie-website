@@ -1,3 +1,4 @@
+import { useQuery } from "@tanstack/react-query";
 import { Header } from "@/components/layout/header";
 import { HomeContent } from "@/components/home/home-content";
 import { HomeMoviesResponse, MovieItem } from "@/features/movies/types";
@@ -72,36 +73,36 @@ const fallbackNewMovies: MovieItem[] = [
   },
 ];
 
-const getHomeMovies = async (): Promise<HomeMoviesResponse> => {
-  const baseUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:4000/api";
+const loadHomeMovies = async (): Promise<HomeMoviesResponse> => {
+  const baseUrl = import.meta.env.VITE_API_URL || "http://localhost:4000/api";
+  const response = await fetch(`${baseUrl}/movies/home?hotLimit=4&newLimit=4`);
 
-  try {
-    const response = await fetch(`${baseUrl}/movies/home?hotLimit=4&newLimit=4`, {
-      next: { revalidate: 120 },
-    });
-
-    if (!response.ok) {
-      throw new Error("Failed to fetch home movies");
-    }
-
-    const data = (await response.json()) as HomeMoviesResponse;
-
-    return {
-      hotMovies: data.hotMovies?.length ? data.hotMovies : fallbackHotMovies,
-      newMovies: data.newMovies?.length ? data.newMovies : fallbackNewMovies,
-    };
-  } catch {
-    return { hotMovies: fallbackHotMovies, newMovies: fallbackNewMovies };
+  if (!response.ok) {
+    throw new Error("Failed to fetch home movies");
   }
+
+  const data = (await response.json()) as HomeMoviesResponse;
+  return {
+    hotMovies: data.hotMovies?.length ? data.hotMovies : fallbackHotMovies,
+    newMovies: data.newMovies?.length ? data.newMovies : fallbackNewMovies,
+  };
 };
 
-export default async function Home() {
-  const { hotMovies, newMovies } = await getHomeMovies();
+export const HomePage = () => {
+  const { data } = useQuery({
+    queryKey: ["home", "movies"],
+    queryFn: loadHomeMovies,
+    retry: 1,
+    initialData: {
+      hotMovies: fallbackHotMovies,
+      newMovies: fallbackNewMovies,
+    },
+  });
 
   return (
     <>
       <Header />
-      <HomeContent hotMovies={hotMovies} newMovies={newMovies} />
+      <HomeContent hotMovies={data.hotMovies} newMovies={data.newMovies} />
     </>
   );
-}
+};

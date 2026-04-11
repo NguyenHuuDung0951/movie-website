@@ -1,10 +1,12 @@
-"use client";
-
-import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { Link, useNavigate } from "react-router-dom";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { LoginFormInput, RegisterFormInput, loginSchema, registerSchema } from "@/features/auth/schemas";
+import {
+  LoginFormInput,
+  RegisterFormInput,
+  loginSchema,
+  registerSchema,
+} from "@/features/auth/schemas";
 import { useAuth } from "@/hooks/use-auth";
 
 type Props = {
@@ -12,15 +14,13 @@ type Props = {
 };
 
 export const AuthForm = ({ mode }: Props) => {
-  const router = useRouter();
+  const navigate = useNavigate();
   const { loginMutation, registerMutation } = useAuth();
   const isLogin = mode === "login";
 
   const form = useForm<LoginFormInput | RegisterFormInput>({
     resolver: zodResolver(isLogin ? loginSchema : registerSchema),
-    defaultValues: isLogin
-      ? { email: "", password: "" }
-      : { name: "", email: "", password: "" },
+    defaultValues: isLogin ? { email: "", password: "" } : { name: "", email: "", password: "" },
   });
 
   const onSubmit = async (values: LoginFormInput | RegisterFormInput) => {
@@ -29,7 +29,7 @@ export const AuthForm = ({ mode }: Props) => {
     } else {
       await registerMutation.mutateAsync(values as RegisterFormInput);
     }
-    router.push("/admin");
+    navigate("/admin");
   };
 
   const loading = loginMutation.isPending || registerMutation.isPending;
@@ -91,7 +91,7 @@ export const AuthForm = ({ mode }: Props) => {
 
       <p className="mt-4 text-sm">
         {isLogin ? "Chưa có tài khoản?" : "Đã có tài khoản?"}{" "}
-        <Link href={isLogin ? "/register" : "/login"} className="font-medium underline">
+        <Link to={isLogin ? "/register" : "/login"} className="font-medium underline">
           {isLogin ? "Đăng ký" : "Đăng nhập"}
         </Link>
       </p>
