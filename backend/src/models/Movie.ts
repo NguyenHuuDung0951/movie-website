@@ -23,4 +23,6 @@ const movieSchema = new Schema<IMovie>(
   { timestamps: true },
 );
 
+movieSchema.index({ title: "text", description: "text", genre: 1, releaseYear: -1 });
+
 export const Movie = model<IMovie>("Movie", movieSchema);

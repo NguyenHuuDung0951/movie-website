@@ -1,0 +1,50 @@
+### Giai đoạn 1: Khởi tạo Kiến trúc & Nền tảng (Setup & Foundation)
+*Mục tiêu: Dựng bộ khung chuẩn cho cả project, đảm bảo code quality từ những dòng đầu tiên.*
+
+* **Chung:** Khởi tạo dự án Next.js (App Router) với TypeScript. Cài đặt ESLint, Prettier và Husky (pre-commit). Thiết lập cấu trúc thư mục (app, components, features, utils, lib...).
+* **Backend (BE):** Thiết lập kết nối Database (MongoDB hoặc PostgreSQL). Định nghĩa các Schema/Model cơ bản (User, Movie, Review).
+* **Frontend (FE):** Cài đặt thư viện UI (TailwindCSS/MUI). Thiết lập Global State (Zustand/Redux) và bọc app bằng Provider của React Query.
+
+### Giai đoạn 2: Hệ thống Xác thực & Phân quyền (Auth & Security)
+*Mục tiêu: Hoàn thiện luồng đăng nhập, đăng ký và bảo vệ các trang kín.*
+
+* **BE:** Cấu hình NextAuth.js (hoặc Custom JWT). Viết API Đăng ký, xử lý mã hóa mật khẩu. Tạo Middleware bảo vệ các route `/admin`.
+* **FE:** * Dựng UI form Đăng nhập/Đăng ký.
+  * Tích hợp **React Hook Form + Zod** để validate form (email, password).
+  * Viết custom hook `useAuth` để lấy thông tin user.
+  * Xử lý lưu token (nếu dùng JWT) và điều hướng user sau khi đăng nhập thành công.
+
+### Giai đoạn 3: Quản trị Dữ liệu Lõi & Upload (Admin CRUD)
+*Mục tiêu: Admin có thể thêm phim và ảnh vào hệ thống để FE có dữ liệu thật để hiển thị.*
+
+* **BE:** * Viết các API/Server Actions: Thêm, sửa, xóa Phim (Movies) và Người dùng (Users).
+  * Viết API xử lý Upload file (kiểm tra size < 2MB, type ảnh).
+* **FE:** * Dựng trang Admin Layout (Sidebar, Header).
+  * Dựng form Thêm/Sửa phim (có chức năng upload ảnh và Preview ảnh trước khi lưu).
+  * Dùng React Query (Mutations) để gọi API thêm phim và xử lý trạng thái Loading/Success bằng Toast message.
+
+### Giai đoạn 4: Hiển thị Giao diện & Tương tác Người dùng (Client Features)
+*Mục tiêu: Xây dựng trải nghiệm cho user xem phim, tìm kiếm và đánh giá.*
+
+* **BE:** * Viết API lấy danh sách phim có hỗ trợ query params (search, filter, pagination).
+  * Viết API xử lý tạo/sửa/xóa Đánh giá (Reviews).
+* **FE:**
+  * **Trang chủ:** Render danh sách phim Hot/Mới bằng chiến lược **SSG/ISR**.
+  * **Trang chi tiết phim:** Render bằng **SSR** để lấy chi tiết phim + reviews.
+  * **Tìm kiếm & Lọc:** Làm thanh search (áp dụng `useDebounce`), làm bộ lọc (Thể loại, Năm). Áp dụng phân trang hoặc Infinite Scroll cho danh sách phim.
+  * Dựng form cho phép User viết Review và chấm sao.
+
+### Giai đoạn 5: Thống kê & Báo cáo Admin (Dashboard)
+*Mục tiêu: Hoàn thiện tính năng quản trị cấp cao cho Admin.*
+
+* **BE:** Viết API/Server Actions tổng hợp dữ liệu (Ví dụ: đếm tổng doanh thu/lượt xem, group user theo ngày đăng ký, group phim theo thể loại).
+* **FE:** * Lắp ráp thư viện Chart (Recharts hoặc Chart.js).
+  * Dựng ít nhất 2 biểu đồ hiển thị dữ liệu thống kê trên trang Dashboard.
+  * Áp dụng `useMemo` để xử lý mảng dữ liệu lớn trước khi đưa vào biểu đồ, tránh re-render giật lag.
+
+### Giai đoạn 6: Tối ưu Hóa, SEO & Nghiệm thu (Optimization & Polishing)
+*Mục tiêu: Đưa website đạt chuẩn Production, mượt mà và chuẩn SEO.*
+
+* **Tối ưu Hình ảnh:** Rà soát lại toàn bộ ảnh trên web, bắt buộc thay thế bằng component `<Image />` của Next.js để tối ưu dung lượng.
+* **Tối ưu SEO:** Thêm Dynamic Metadata (Title, Description, Open Graph) cho trang chi tiết phim. Đảm bảo URL thân thiện (vd: `/movies/inception`).
+* **Code Review:** Rà soát lại việc dùng `useCallback` cho các hàm truyền qua props, dọn dẹp console.log, kiểm tra lại toàn bộ UI trạng thái Empty/Error/Loading.

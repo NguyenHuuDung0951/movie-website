@@ -1,36 +1,65 @@
-# Movies Website
+# Movies Website Monorepo
 
-Project duoc khoi tao theo yeu cau giai doan 1 va 2 voi cau truc tach rieng:
+Workspace includes:
 
-- `backend`: Express + TypeScript + MongoDB (Mongoose) + JWT auth
-- `frontend`: Next.js (App Router) + Tailwind + Redux + React Query
+- backend: Express + TypeScript + MongoDB
+- frontend: Next.js App Router + TypeScript
 
-## Setup nhanh
+## Requirements
 
-1. Backend:
-   - Copy `backend/.env.example` thanh `backend/.env`
-   - Dien `MONGODB_URI` va `JWT_SECRET`
-2. Frontend:
-   - Copy `frontend/.env.example` thanh `frontend/.env.local`
+- Node.js 20+
+- MongoDB local or MongoDB Atlas
 
-## Chay project
+## Setup
 
-Mo 2 terminal:
+1. Install dependencies in workspace root:
 
-- Backend: `cd backend && npm install && npm run dev`
-- Frontend: `cd frontend && npm install && npm run dev`
+```bash
+npm install
+```
 
-## Da hoan thanh trong giai doan 1-2
+2. Configure backend environment in backend/.env:
 
-- Khung FE/BE + TypeScript
-- TailwindCSS (FE)
-- Redux global state + React Query provider (FE)
-- Model co ban: `User`, `Movie`, `Review` (BE)
-- API auth: register/login/me (BE)
-- Ma hoa mat khau bang bcrypt (BE)
-- Middleware bao ve route admin:
-  - BE: `/api/admin/dashboard` can token + role admin
-  - FE: route `/admin` redirect ve `/login` neu chua co token cookie
-- UI form dang nhap/dang ky voi React Hook Form + Zod
-- Custom hook `useAuth` + luu token vao cookie/localStorage
-- Prettier + Husky pre-commit (monorepo root)
+```env
+PORT=4000
+MONGODB_URI=mongodb://127.0.0.1:27017/movies_website
+JWT_SECRET=your_jwt_secret_here
+```
+
+3. Configure frontend environment in frontend/.env:
+
+```env
+NEXT_PUBLIC_API_URL=http://localhost:4000/api
+```
+
+## Run
+
+Start backend:
+
+```bash
+npm run dev:backend
+```
+
+Start frontend:
+
+```bash
+npm run dev:frontend
+```
+
+## Lint
+
+Run all checks:
+
+```bash
+npm run lint
+```
+
+## Current API
+
+- GET /health
+- POST /api/auth/register
+- POST /api/auth/login
+- GET /api/auth/me
+- GET /api/admin/dashboard
+- GET /api/movies
+- GET /api/movies/home
