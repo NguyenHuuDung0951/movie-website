@@ -5,6 +5,7 @@ const menuItems = [
   { label: "Phim Hot", href: "/#hot" },
   { label: "Thể loại", href: "/" },
   { label: "Tin tức", href: "/" },
+  { label: "Danh sách phim của tôi", href: "/" },
 ];
 
 export const Header = () => {
@@ -12,7 +13,7 @@ export const Header = () => {
     <header className="sticky top-0 z-10 border-b border-zinc-200 bg-white/95 backdrop-blur">
       <div className="mx-auto flex w-full max-w-6xl flex-wrap items-center gap-4 px-4 py-3 sm:px-6">
         <Link to="/" className="text-xl font-black tracking-tight text-zinc-900">
-          MOVIEHUB
+          CINEMAVERSA
         </Link>
 
         <nav className="order-3 w-full overflow-x-auto sm:order-2 sm:w-auto sm:flex-1">
@@ -30,7 +31,7 @@ export const Header = () => {
             <li>
               <button
                 type="button"
-                className="rounded-full border border-zinc-300 px-3 py-2 text-sm font-medium text-zinc-700"
+                className="rounded-full border border-zinc-300 px-3 py-2 text-sm font-medium text-zinc-700 transition hover:bg-zinc-100 hover:text-zinc-950"
               >
                 Hồ sơ
               </button>
