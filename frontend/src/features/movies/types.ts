@@ -12,3 +12,12 @@ export type HomeMoviesResponse = {
   hotMovies: MovieItem[];
   newMovies: MovieItem[];
 };
+
+export type ShowcaseMovie = {
+  id: number;
+  title: string;
+  overview: string;
+  voteAverage: number;
+  backdropPath: string;
+  posterPath: string;
+};

@@ -36,14 +36,14 @@ export const AuthForm = ({ mode }: Props) => {
   const error = loginMutation.error || registerMutation.error;
 
   return (
-    <div className="mx-auto mt-16 w-full max-w-md rounded-lg border border-zinc-200 p-6 shadow-sm">
-      <h1 className="mb-6 text-2xl font-bold">{isLogin ? "Đăng nhập" : "Đăng ký"}</h1>
+    <div className="mx-auto mt-16 w-full max-w-md rounded-lg border border-zinc-800 bg-[#151618]/92 p-6 shadow-sm">
+      <h1 className="mb-6 text-2xl font-bold text-zinc-100">{isLogin ? "Đăng nhập" : "Đăng ký"}</h1>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
         {!isLogin && (
           <div>
-            <label className="mb-1 block text-sm">Tên</label>
+            <label className="mb-1 block text-sm text-zinc-300">Tên</label>
             <input
-              className="w-full rounded border border-zinc-300 p-2"
+              className="w-full rounded border border-zinc-700 bg-zinc-900/70 p-2 text-zinc-100"
               {...form.register("name" as const)}
             />
             <p className="mt-1 text-sm text-red-600">
@@ -53,10 +53,10 @@ export const AuthForm = ({ mode }: Props) => {
         )}
 
         <div>
-          <label className="mb-1 block text-sm">Email</label>
+          <label className="mb-1 block text-sm text-zinc-300">Email</label>
           <input
             type="email"
-            className="w-full rounded border border-zinc-300 p-2"
+            className="w-full rounded border border-zinc-700 bg-zinc-900/70 p-2 text-zinc-100"
             {...form.register("email")}
           />
           <p className="mt-1 text-sm text-red-600">
@@ -65,10 +65,10 @@ export const AuthForm = ({ mode }: Props) => {
         </div>
 
         <div>
-          <label className="mb-1 block text-sm">Mật khẩu</label>
+          <label className="mb-1 block text-sm text-zinc-300">Mật khẩu</label>
           <input
             type="password"
-            className="w-full rounded border border-zinc-300 p-2"
+            className="w-full rounded border border-zinc-700 bg-zinc-900/70 p-2 text-zinc-100"
             {...form.register("password")}
           />
           <p className="mt-1 text-sm text-red-600">
@@ -83,15 +83,15 @@ export const AuthForm = ({ mode }: Props) => {
         <button
           type="submit"
           disabled={loading}
-          className="w-full rounded bg-black px-4 py-2 text-white disabled:opacity-60"
+          className="w-full rounded bg-zinc-100 px-4 py-2 text-zinc-900 disabled:opacity-60"
         >
           {loading ? "Đang xử lý..." : isLogin ? "Đăng nhập" : "Tạo tài khoản"}
         </button>
       </form>
 
-      <p className="mt-4 text-sm">
+      <p className="mt-4 text-sm text-zinc-300">
         {isLogin ? "Chưa có tài khoản?" : "Đã có tài khoản?"}{" "}
-        <Link to={isLogin ? "/register" : "/login"} className="font-medium underline">
+        <Link to={isLogin ? "/register" : "/login"} className="font-medium text-zinc-100 underline">
           {isLogin ? "Đăng ký" : "Đăng nhập"}
         </Link>
       </p>
