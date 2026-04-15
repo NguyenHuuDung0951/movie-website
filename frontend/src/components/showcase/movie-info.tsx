@@ -7,9 +7,9 @@ type Props = {
 export const MovieInfo = ({ movie }: Props) => {
   return (
     <section className="max-w-2xl space-y-5">
-      <p className="inline-flex rounded-full border border-zinc-600/70 bg-zinc-900/55 px-3 py-1 text-xs font-semibold uppercase tracking-[0.2em] text-zinc-300">
+      {/* <p className="inline-flex rounded-full border border-zinc-600/70 bg-zinc-900/55 px-3 py-1 text-xs font-semibold uppercase tracking-[0.2em] text-zinc-300">
         Movie Showcase
-      </p>
+      </p> */}
 
       <h1 className="text-4xl font-black leading-tight text-white sm:text-5xl">{movie.title}</h1>
 
@@ -29,13 +29,13 @@ export const MovieInfo = ({ movie }: Props) => {
           type="button"
           className="rounded-full bg-white px-6 py-3 text-sm font-semibold text-zinc-900 transition hover:bg-zinc-200"
         >
-          Play
+          Xem ngay
         </button>
         <button
           type="button"
           className="rounded-full border border-zinc-500 bg-zinc-900/40 px-6 py-3 text-sm font-semibold text-zinc-100 transition hover:border-zinc-300 hover:text-white"
         >
-          Add to list
+          Thêm vào danh sách
         </button>
       </div>
     </section>

@@ -21,3 +21,25 @@ export type ShowcaseMovie = {
   backdropPath: string;
   posterPath: string;
 };
+
+export type CountryMovie = {
+  id: number;
+  title: string;
+  overview: string;
+  voteAverage: number;
+  posterPath: string;
+};
+
+export type CountryMovieGroup = {
+  key: "kr" | "cn" | "us-uk";
+  title: string;
+  movies: CountryMovie[];
+};
+
+export type StandaloneMovie = {
+  id: number;
+  title: string;
+  englishTitle: string;
+  posterPath: string;
+  badge?: string;
+};

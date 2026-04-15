@@ -20,3 +20,13 @@ body {
   font-family: "Segoe UI", sans-serif;
   min-height: 100vh;
 }
+
+/* Hide scrollbar while preserving scroll behavior */
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}

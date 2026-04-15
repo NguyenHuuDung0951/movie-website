@@ -27,7 +27,7 @@ export const MovieHero = ({ movies }: Props) => {
         />
       ))}
 
-      <div className="absolute inset-0 bg-gradient-to-r from-black/90 via-black/65 to-black/40" />
+      {/* <div className="absolute inset-0 bg-gradient-to-r from-black/90 via-black/65 to-black/40" /> */}
       <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent" />
 
       <div className="relative z-10 mx-auto flex min-h-[calc(100vh-73px)] w-full max-w-7xl flex-col justify-between px-4 pb-8 pt-10 sm:px-6 sm:pb-10 sm:pt-14">
