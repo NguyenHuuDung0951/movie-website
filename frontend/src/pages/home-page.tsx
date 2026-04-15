@@ -1,108 +1,109 @@
 import { useQuery } from "@tanstack/react-query";
+import { CountryMoviesSection } from "@/components/home/country-movies-section";
+import { InterestGenres } from "@/components/home/interest-genres";
+import { MovieCarousel, type CarouselMovie } from "@/components/home/movie-carousel";
 import { Header } from "@/components/layout/header";
-import { HomeContent } from "@/components/home/home-content";
-import { HomeMoviesResponse, MovieItem } from "@/features/movies/types";
+import { MovieHero } from "@/components/showcase/movie-hero";
+import {
+  fetchCountryMovieGroups,
+  fetchShowcaseMovies,
+  fetchStandaloneMovies,
+} from "@/features/movies/tmdb-showcase";
+import { CountryMovieGroup, ShowcaseMovie, StandaloneMovie } from "@/features/movies/types";
 
-const fallbackHotMovies: MovieItem[] = [
+const fallbackShowcaseMovies: ShowcaseMovie[] = [
   {
-    _id: "fallback-hot-1",
-    title: "The Last Signal",
-    slug: "the-last-signal",
-    description: "A sci-fi survival story in deep space.",
-    genre: "Sci-Fi",
-    releaseYear: 2025,
-  },
-  {
-    _id: "fallback-hot-2",
-    title: "Shadow Streets",
-    slug: "shadow-streets",
-    description: "A crime thriller set in a neon city.",
-    genre: "Crime",
-    releaseYear: 2024,
-  },
-  {
-    _id: "fallback-hot-3",
-    title: "Ocean of Fire",
-    slug: "ocean-of-fire",
-    description: "Action-packed rescue across storm seas.",
-    genre: "Action",
-    releaseYear: 2026,
-  },
-  {
-    _id: "fallback-hot-4",
-    title: "Noir City",
-    slug: "noir-city",
-    description: "A dark mystery in the heart of downtown.",
-    genre: "Thriller",
-    releaseYear: 2025,
+    id: 1,
+    title: "Rạp phim trực tuyến",
+    overview: "Vui lòng cấu hình khóa môi trường TMDB để tải danh sách phim trực tiếp.",
+    voteAverage: 8.5,
+    backdropPath: "/home-background.jpg",
+    posterPath: "/home-background.jpg",
   },
 ];
 
-const fallbackNewMovies: MovieItem[] = [
+const fallbackCountryMovieGroups: CountryMovieGroup[] = [
   {
-    _id: "fallback-new-1",
-    title: "Midnight Echo",
-    slug: "midnight-echo",
-    description: "A character-driven drama with emotional twists.",
-    genre: "Drama",
-    releaseYear: 2026,
+    key: "kr",
+    title: "Phim Hàn Quốc Mới",
+    movies: Array.from({ length: 10 }, (_, index) => ({
+      id: 1000 + index,
+      title: `Phim Hàn ${index + 1}`,
+      overview: "",
+      voteAverage: 8.2,
+      posterPath: "/home-background.jpg",
+    })),
   },
   {
-    _id: "fallback-new-2",
-    title: "Blue Horizon",
-    slug: "blue-horizon",
-    description: "Adventure to discover a lost island legend.",
-    genre: "Adventure",
-    releaseYear: 2026,
+    key: "cn",
+    title: "Phim Trung Quốc mới",
+    movies: Array.from({ length: 10 }, (_, index) => ({
+      id: 2000 + index,
+      title: `Phim Trung ${index + 1}`,
+      overview: "",
+      voteAverage: 8.1,
+      posterPath: "/home-background.jpg",
+    })),
   },
   {
-    _id: "fallback-new-3",
-    title: "Code of Dust",
-    slug: "code-of-dust",
-    description: "A puzzle mystery tied to old cinema reels.",
-    genre: "Mystery",
-    releaseYear: 2025,
-  },
-  {
-    _id: "fallback-new-4",
-    title: "City in Rain",
-    slug: "city-in-rain",
-    description: "A romance blooming in a crowded rainy city.",
-    genre: "Romance",
-    releaseYear: 2026,
+    key: "us-uk",
+    title: "Phim US - UK mới",
+    movies: Array.from({ length: 10 }, (_, index) => ({
+      id: 3000 + index,
+      title: `Phim US - UK ${index + 1}`,
+      overview: "",
+      voteAverage: 8,
+      posterPath: "/home-background.jpg",
+    })),
   },
 ];
 
-const loadHomeMovies = async (): Promise<HomeMoviesResponse> => {
-  const baseUrl = import.meta.env.VITE_API_URL || "http://localhost:4000/api";
-  const response = await fetch(`${baseUrl}/movies/home?hotLimit=4&newLimit=4`);
+const fallbackStandaloneMovies: StandaloneMovie[] = Array.from({ length: 8 }, (_, index) => ({
+  id: 5000 + index,
+  title: `Phim Lẻ ${index + 1}`,
+  englishTitle: `Standalone Movie ${index + 1}`,
+  posterPath: "/home-background.jpg",
+  badge: "P.Đề",
+}));
 
-  if (!response.ok) {
-    throw new Error("Failed to fetch home movies");
-  }
-
-  const data = (await response.json()) as HomeMoviesResponse;
-  return {
-    hotMovies: data.hotMovies?.length ? data.hotMovies : fallbackHotMovies,
-    newMovies: data.newMovies?.length ? data.newMovies : fallbackNewMovies,
-  };
-};
+const convertStandaloneToCarousel = (movies: StandaloneMovie[]): CarouselMovie[] =>
+  movies.map((movie) => ({
+    id: movie.id,
+    title: movie.title,
+    subtitle: movie.englishTitle,
+    imageSrc: movie.posterPath,
+    badge: movie.badge,
+  }));
 
 export const HomePage = () => {
   const { data } = useQuery({
-    queryKey: ["home", "movies"],
-    queryFn: loadHomeMovies,
+    queryKey: ["showcase", "movies"],
+    queryFn: fetchShowcaseMovies,
     retry: 1,
-    initialData: {
-      hotMovies: fallbackHotMovies,
-      newMovies: fallbackNewMovies,
-    },
+    initialData: fallbackShowcaseMovies,
+  });
+
+  const { data: countryMovieGroups } = useQuery({
+    queryKey: ["country", "movies"],
+    queryFn: fetchCountryMovieGroups,
+    retry: 1,
+    initialData: fallbackCountryMovieGroups,
+  });
+
+  const { data: standaloneMovies } = useQuery({
+    queryKey: ["standalone", "movies"],
+    queryFn: fetchStandaloneMovies,
+    retry: 1,
+    initialData: fallbackStandaloneMovies,
   });
 
   return (
     <>
       <Header />
-      <HomeContent hotMovies={data.hotMovies} newMovies={data.newMovies} />
+      <MovieHero movies={data} />
+      <InterestGenres />
+      <CountryMoviesSection groups={countryMovieGroups} />
+      <MovieCarousel title="Phim Lẻ Mới" movies={convertStandaloneToCarousel(standaloneMovies)} />
     </>
   );
 };
