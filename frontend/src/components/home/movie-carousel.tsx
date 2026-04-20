@@ -1,4 +1,5 @@
 import { MovieCard } from "./movie-card";
+import { getMovieDetailPath } from "../../features/movies/routes";
 
 export type CarouselMovie = {
   id: string | number;
@@ -34,10 +35,10 @@ export const MovieCarousel = ({ title, movies }: Props) => {
           {movies.map((movie) => (
             <MovieCard
               key={movie.id}
+              href={getMovieDetailPath("movie", movie.id)}
               title={movie.title}
               subtitle={movie.subtitle}
               imageSrc={movie.imageSrc}
-              badge={movie.badge}
             />
           ))}
         </div>

@@ -1,5 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
+import { Link } from "react-router-dom";
 import { CountryMovie, CountryMovieGroup } from "@/features/movies/types";
+import { getMovieDetailPath } from "../../features/movies/routes";
 
 type Props = {
   groups: CountryMovieGroup[];
@@ -82,9 +84,9 @@ export const CountryMoviesSection = ({ groups }: Props) => {
 
               <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
                 {visibleMovies.map((movie) => (
-                  <button
+                  <Link
                     key={`${group.key}-${movie.id}`}
-                    type="button"
+                    to={getMovieDetailPath("movie", movie.id)}
                     className="group relative h-full w-full overflow-hidden rounded-2xl border border-zinc-700/80 bg-zinc-900/80 text-left sm:h-56"
                     aria-label={`Mở phim ${movie.title}`}
                   >
@@ -101,7 +103,7 @@ export const CountryMoviesSection = ({ groups }: Props) => {
                         Đánh giá: {movie.voteAverage.toFixed(1)} / 10
                       </p>
                     </div>
-                  </button>
+                  </Link>
                 ))}
               </div>
             </article>

@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
+import { Link } from "react-router-dom";
+import { getMovieDetailPath } from "@/features/movies/routes.ts";
 
 interface TrendingMovie {
   id: number;
@@ -37,7 +39,10 @@ const MovieCard = ({ movie, rank }: { movie: TrendingMovie; rank: number }) => {
   const voteAverage = movie.vote_average.toFixed(1);
 
   return (
-    <div className="group relative flex flex-col gap-3 overflow-hidden">
+    <Link
+      to={getMovieDetailPath("movie", movie.id)}
+      className="group relative flex flex-col gap-3 overflow-hidden"
+    >
       {/* Poster Container */}
       <div className="relative overflow-hidden rounded-lg border border-white/20 shadow-lg transition-transform hover:scale-105">
         <img
@@ -67,7 +72,7 @@ const MovieCard = ({ movie, rank }: { movie: TrendingMovie; rank: number }) => {
         </h3>
         <p className="line-clamp-1 text-xs text-zinc-400">{releaseDate}</p>
       </div>
-    </div>
+    </Link>
   );
 };
 
