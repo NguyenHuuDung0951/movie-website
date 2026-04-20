@@ -1,28 +1,41 @@
 import { useMemo, useState } from "react";
+import { FaFilm, FaRegFaceSmile, FaUserGroup } from "react-icons/fa6";
+import { GiDramaMasks, GiFireBowl, GiGhost } from "react-icons/gi";
+import { HiOutlineAcademicCap } from "react-icons/hi2";
+import { IoMusicalNotesOutline } from "react-icons/io5";
+import { LuDna, LuHistory, LuWaves } from "react-icons/lu";
+import { MdOutlineFamilyRestroom, MdOutlineMilitaryTech } from "react-icons/md";
+import { PiDetectiveBold, PiRocketLaunchBold } from "react-icons/pi";
+import { TbSword } from "react-icons/tb";
+import type { IconType } from "react-icons";
 
 type Genre = {
   id: string;
   name: string;
 };
 
-const genres: Genre[] = [
-  { id: "action", name: "Hành động" },
-  { id: "adventure", name: "Phiêu lưu" },
-  { id: "animation", name: "Hoạt hình" },
-  { id: "comedy", name: "Hài" },
-  { id: "crime", name: "Tội phạm" },
-  { id: "documentary", name: "Tài liệu" },
-  { id: "drama", name: "Chính kịch" },
-  { id: "family", name: "Gia đình" },
-  { id: "fantasy", name: "Giả tưởng" },
-  { id: "history", name: "Lịch sử" },
-  { id: "horror", name: "Kinh dị" },
-  { id: "music", name: "Âm nhạc" },
-  { id: "mystery", name: "Bí ẩn" },
-  { id: "romance", name: "Lãng mạn" },
-  { id: "science-fiction", name: "Khoa học viễn tưởng" },
-  { id: "thriller", name: "Giật gân" },
-  { id: "war", name: "Chiến tranh" },
+type GenreWithIcon = Genre & {
+  icon: IconType;
+};
+
+const genres: GenreWithIcon[] = [
+  { id: "action", name: "Hành động", icon: TbSword },
+  { id: "adventure", name: "Phiêu lưu", icon: PiRocketLaunchBold },
+  { id: "animation", name: "Hoạt hình", icon: FaRegFaceSmile },
+  { id: "comedy", name: "Hài", icon: FaRegFaceSmile },
+  { id: "crime", name: "Tội phạm", icon: PiDetectiveBold },
+  { id: "documentary", name: "Tài liệu", icon: HiOutlineAcademicCap },
+  { id: "drama", name: "Chính kịch", icon: GiDramaMasks },
+  { id: "family", name: "Gia đình", icon: MdOutlineFamilyRestroom },
+  { id: "fantasy", name: "Giả tưởng", icon: GiFireBowl },
+  { id: "history", name: "Lịch sử", icon: LuHistory },
+  { id: "horror", name: "Kinh dị", icon: GiGhost },
+  { id: "music", name: "Âm nhạc", icon: IoMusicalNotesOutline },
+  { id: "mystery", name: "Bí ẩn", icon: FaFilm },
+  { id: "romance", name: "Lãng mạn", icon: FaUserGroup },
+  { id: "science-fiction", name: "Khoa học viễn tưởng", icon: LuDna },
+  { id: "thriller", name: "Giật gân", icon: LuWaves },
+  { id: "war", name: "Chiến tranh", icon: MdOutlineMilitaryTech },
 ];
 
 const VISIBLE_GENRES = 5;
@@ -68,11 +81,14 @@ export const InterestGenres = () => {
           <button
             key={genre.id}
             type="button"
-            className="rounded-2xl border border-white/20 px-4 py-5 text-left text-sm font-semibold
+            className="flex items-center gap-3 rounded-2xl border border-white/20 px-4 py-5 text-left text-sm font-semibold
             text-zinc-100 shadow-sm transition hover:-translate-y-0.5 hover:border-white/35 hover:brightness-110"
             style={{ backgroundImage: genreBackgroundMap[genre.id] }}
           >
-            {genre.name}
+            <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-white/15 text-lg text-white shadow-inner">
+              <genre.icon aria-hidden="true" />
+            </span>
+            <span className="leading-tight">{genre.name}</span>
           </button>
         ))}
 

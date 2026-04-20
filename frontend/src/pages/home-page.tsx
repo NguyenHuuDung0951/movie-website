@@ -2,6 +2,8 @@ import { useQuery } from "@tanstack/react-query";
 import { CountryMoviesSection } from "@/components/home/country-movies-section";
 import { InterestGenres } from "@/components/home/interest-genres";
 import { MovieCarousel, type CarouselMovie } from "@/components/home/movie-carousel";
+import { TopTrending } from "@/components/home/top-trending";
+import { Footer } from "@/components/layout/footer";
 import { Header } from "@/components/layout/header";
 import { MovieHero } from "@/components/showcase/movie-hero";
 import {
@@ -102,8 +104,10 @@ export const HomePage = () => {
       <Header />
       <MovieHero movies={data} />
       <InterestGenres />
+      <TopTrending />
       <CountryMoviesSection groups={countryMovieGroups} />
       <MovieCarousel title="Phim Lẻ Mới" movies={convertStandaloneToCarousel(standaloneMovies)} />
+      <Footer />
     </>
   );
 };
