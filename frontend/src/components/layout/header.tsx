@@ -2,9 +2,9 @@ import { Link } from "react-router-dom";
 
 const menuItems = [
   { label: "Trang chủ", href: "/#home" },
-  { label: "Phim Hot", href: "/#hot" },
+  { label: "Phim Bộ", href: "/#hot" },
+  { label: "Phim Lẻ", href: "/moviecaroucelalone" },
   { label: "Thể loại", href: "/" },
-  { label: "Tin tức", href: "/" },
   { label: "Danh sách phim của tôi", href: "/" },
 ];
 

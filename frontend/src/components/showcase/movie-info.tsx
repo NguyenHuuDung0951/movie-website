@@ -1,4 +1,6 @@
 import { ShowcaseMovie } from "@/features/movies/types";
+import { getMovieDetailPath } from "@/features/movies/routes";
+import { Link } from "react-router-dom";
 
 type Props = {
   movie: ShowcaseMovie;
@@ -25,12 +27,13 @@ export const MovieInfo = ({ movie }: Props) => {
       </p>
 
       <div className="flex flex-wrap gap-3">
-        <button
-          type="button"
+        <Link
+          to={getMovieDetailPath("movie", movie.id)}
+          aria-label={`Xem phim ${movie.title}`}
           className="rounded-full bg-white px-6 py-3 text-sm font-semibold text-zinc-900 transition hover:bg-zinc-200"
         >
           Xem ngay
-        </button>
+        </Link>
         <button
           type="button"
           className="rounded-full border border-zinc-500 bg-zinc-900/40 px-6 py-3 text-sm font-semibold text-zinc-100 transition hover:border-zinc-300 hover:text-white"
