@@ -18,8 +18,8 @@ export const FilterBar = ({
   return (
     <section className="mb-6 rounded-2xl border border-zinc-800 bg-zinc-950/70 p-4 sm:p-5">
       <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
-        <label className="space-y-2 text-sm text-zinc-300">
-          <span className="font-medium text-zinc-200">Năm phát hành</span>
+        <label className="space-y-2 text-sm text-zinc-300 gap-6">
+          <span className="block font-medium text-zinc-200 py-5">Năm phát hành</span>
           <select
             value={selectedYear}
             onChange={(event) => onYearChange(event.target.value)}
@@ -36,7 +36,7 @@ export const FilterBar = ({
         </label>
 
         <label className="space-y-2 text-sm text-zinc-300">
-          <span className="font-medium text-zinc-200">Thể loại</span>
+          <span className="block font-medium text-zinc-200 py-5">Thể loại</span>
           <select
             value={selectedGenre}
             onChange={(event) => onGenreChange(event.target.value)}
@@ -53,7 +53,7 @@ export const FilterBar = ({
         </label>
 
         <label className="space-y-2 text-sm text-zinc-300 sm:col-span-2 lg:col-span-1">
-          <span className="font-medium text-zinc-200">Quốc gia</span>
+          <span className="block font-medium text-zinc-200 py-5">Quốc gia</span>
           <select
             value={selectedRegion}
             onChange={(event) => onRegionChange(event.target.value)}

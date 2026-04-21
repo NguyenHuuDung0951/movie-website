@@ -29,7 +29,7 @@ export const AuthForm = ({ mode }: Props) => {
     } else {
       await registerMutation.mutateAsync(values as RegisterFormInput);
     }
-    navigate("/admin");
+    navigate("/profile");
   };
 
   const loading = loginMutation.isPending || registerMutation.isPending;

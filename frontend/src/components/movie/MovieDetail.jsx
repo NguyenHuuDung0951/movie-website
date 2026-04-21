@@ -29,7 +29,7 @@ export const MovieDetail = ({ movie, genres = [], credits, videos, similar, medi
 
   return (
     <main className="mx-auto w-full max-w-7xl space-y-6 px-4 py-6 sm:px-6 sm:py-8">
-      <MovieHero movie={movie} />
+      <MovieHero movie={movie} mediaType={mediaType} />
       <MovieMeta movie={movie} genres={genres} />
 
       <section className="rounded-2xl border border-zinc-800 bg-zinc-900/70 p-4 sm:p-6">
@@ -102,7 +102,7 @@ export const MovieDetail = ({ movie, genres = [], credits, videos, similar, medi
                         : "https://placehold.co/400x600/1f2937/e5e7eb?text=No+Image"
                     }
                     alt={actor.name}
-                    className="aspect-[2/3] w-full object-cover"
+                    className="aspect-2/3 w-full object-cover"
                     loading="lazy"
                   />
                   <div className="space-y-1 p-3">
@@ -128,7 +128,7 @@ export const MovieDetail = ({ movie, genres = [], credits, videos, similar, medi
                     <img
                       src={getImageUrl(item.poster_path)}
                       alt={itemTitle}
-                      className="aspect-[2/3] w-full object-cover transition duration-300 group-hover:scale-105"
+                      className="aspect-2/3 w-full object-cover transition duration-300 group-hover:scale-105"
                       loading="lazy"
                     />
                     <p className="line-clamp-1 p-2 text-xs font-medium text-zinc-100 sm:text-sm">

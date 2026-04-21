@@ -19,6 +19,7 @@ body {
   color: var(--foreground);
   font-family: "Segoe UI", sans-serif;
   min-height: 100vh;
+  overflow-x: hidden;
 }
 
 /* Hide scrollbar while preserving scroll behavior */

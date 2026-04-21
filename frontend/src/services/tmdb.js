@@ -56,11 +56,11 @@ export const fetchDiscoverMovies = async ({
 
   return response.json();
 };
-
+// Mặc định sẽ trả về tiếng việt
 export const fetchMovieGenres = async (language = "vi-VN") => {
   const apiKey = getApiKey();
   const params = new URLSearchParams({ api_key: apiKey, language });
-
+  // TMDB có endpoint riêng để lấy danh sách thể loại, không có sẵn trong payload của discover movies.
   const response = await fetch(`${TMDB_API_URL}/genre/movie/list?${params.toString()}`);
 
   if (!response.ok) {

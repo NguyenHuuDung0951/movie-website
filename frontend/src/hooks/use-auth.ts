@@ -1,4 +1,5 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { api } from "@/lib/api";
 import { RootState } from "@/store";
@@ -41,7 +42,15 @@ export const useAuth = () => {
       return response.data.user;
     },
     retry: false,
+    refetchOnWindowFocus: false,
   });
+
+  useEffect(() => {
+    if (meQuery.isError) {
+      clearToken();
+      dispatch(clearAuth());
+    }
+  }, [dispatch, meQuery.isError]);
 
   const logout = () => {
     clearToken();
