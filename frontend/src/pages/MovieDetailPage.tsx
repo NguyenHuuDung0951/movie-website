@@ -10,6 +10,23 @@ const api = axios.create({
   baseURL: "https://api.themoviedb.org/3",
 });
 
+type MovieDetailPayload = {
+  movie: Record<string, unknown>;
+  genres: Array<{ id?: number | string; name: string }>;
+  credits: { cast?: Array<Record<string, unknown>> };
+  videos: { results?: Array<Record<string, unknown>> };
+  similar: { results?: Array<Record<string, unknown>> };
+  mediaType: "movie" | "tv";
+};
+
+const getErrorMessage = (error: unknown, fallback: string) => {
+  if (error instanceof Error && error.message) {
+    return error.message;
+  }
+
+  return fallback;
+};
+
 const MovieDetailSkeleton = () => (
   <main className="mx-auto w-full max-w-7xl animate-pulse space-y-6 px-4 py-6 sm:px-6 sm:py-8">
     <div className="h-105 rounded-2xl bg-zinc-800" />
@@ -20,7 +37,7 @@ const MovieDetailSkeleton = () => (
 
 export const MovieDetailPage = () => {
   const { id, mediaType } = useParams();
-  const [payload, setPayload] = useState(null);
+  const [payload, setPayload] = useState<MovieDetailPayload | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
@@ -58,9 +75,9 @@ export const MovieDetailPage = () => {
           similar: similarRes.data,
           mediaType: type,
         });
-      } catch (fetchError) {
+      } catch (fetchError: unknown) {
         if (!mounted) return;
-        setError(fetchError?.message || "Không thể tải dữ liệu chi tiết phim.");
+        setError(getErrorMessage(fetchError, "Không thể tải dữ liệu chi tiết phim."));
       } finally {
         if (mounted) setLoading(false);
       }

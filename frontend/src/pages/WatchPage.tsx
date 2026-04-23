@@ -10,6 +10,39 @@ import { fetchWatchBundle, pickYoutubeWatchKey } from "@/services/watch";
 
 const TMDB_IMAGE = "https://image.tmdb.org/t/p/w500";
 
+type WatchDetail = {
+  id?: number;
+  title?: string;
+  name?: string;
+  original_title?: string;
+  original_name?: string;
+  release_date?: string;
+  first_air_date?: string;
+  vote_average?: number;
+  overview?: string;
+  poster_path?: string;
+  backdrop_path?: string;
+  genres?: Array<{ id: number; name: string }>;
+  seasons?: Array<{ id?: number; season_number: number; name?: string; episode_count?: number }>;
+};
+
+type WatchPayload = {
+  detail: WatchDetail;
+  videos: { results?: Array<Record<string, unknown>> };
+  credits: { cast?: Array<Record<string, unknown>> };
+  similar: { results?: Array<Record<string, unknown>> };
+  trending: { results?: Array<Record<string, unknown>> };
+  seasons: Array<{ id?: number; season_number: number; name?: string; episode_count?: number }>;
+};
+
+const getErrorMessage = (error: unknown, fallback: string) => {
+  if (error instanceof Error && error.message) {
+    return error.message;
+  }
+
+  return fallback;
+};
+
 const WatchPageSkeleton = () => (
   <main className="mx-auto w-full max-w-7xl animate-pulse space-y-6 px-4 py-6 sm:px-6 sm:py-8">
     <div className="h-14 rounded-xl bg-zinc-800" />
@@ -21,13 +54,13 @@ const WatchPageSkeleton = () => (
   </main>
 );
 
-const formatYear = (dateStr) => {
+const formatYear = (dateStr?: string) => {
   if (!dateStr) return "N/A";
   const year = new Date(dateStr).getFullYear();
   return Number.isNaN(year) ? "N/A" : String(year);
 };
 
-const truncateText = (value, max = 280) => {
+const truncateText = (value?: string, max = 280) => {
   if (!value) return "Đang cập nhật nội dung phim.";
   return value.length > max ? `${value.slice(0, max)}...` : value;
 };
@@ -36,9 +69,9 @@ export const WatchPage = () => {
   const navigate = useNavigate();
   const { type, id } = useParams();
 
-  const mediaType = type === "tv" ? "tv" : "movie";
+  const mediaType: "movie" | "tv" = type === "tv" ? "tv" : "movie";
 
-  const [payload, setPayload] = useState(null);
+  const [payload, setPayload] = useState<WatchPayload | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [selectedSeason, setSelectedSeason] = useState(1);
@@ -48,6 +81,12 @@ export const WatchPage = () => {
 
     const fetchWatchData = async () => {
       try {
+        if (!id) {
+          setError("Thiếu mã phim để tải trang xem.");
+          setLoading(false);
+          return;
+        }
+
         setLoading(true);
         setError("");
 
@@ -60,8 +99,8 @@ export const WatchPage = () => {
 
         if (!active) return;
 
-        const detail = watchData.detail;
-        const seasons = detail?.seasons || [];
+        const detail = watchData.detail as WatchDetail;
+        const seasons = (detail?.seasons || []) as WatchPayload["seasons"];
         const firstSeason = seasons.find((season) => season.season_number > 0) || seasons[0];
 
         setSelectedSeason(firstSeason?.season_number || 1);
@@ -73,9 +112,9 @@ export const WatchPage = () => {
           trending: watchData.trending,
           seasons,
         });
-      } catch (fetchError) {
+      } catch (fetchError: unknown) {
         if (!active) return;
-        setError(fetchError?.message || "Không thể tải dữ liệu watch page.");
+        setError(getErrorMessage(fetchError, "Không thể tải dữ liệu watch page."));
       } finally {
         if (active) {
           setLoading(false);

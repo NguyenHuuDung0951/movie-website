@@ -3,7 +3,13 @@ import React from "react";
 const CONTROL_BUTTON =
   "inline-flex h-8 items-center justify-center rounded-full border border-zinc-700 bg-zinc-900/85 px-3 text-xs font-semibold text-zinc-100 transition hover:border-zinc-500 hover:bg-zinc-800";
 
-export const VideoPlayer = ({ trailerKey, title, backdropPath }) => {
+type Props = {
+  trailerKey?: string;
+  title: string;
+  backdropPath?: string;
+};
+
+export const VideoPlayer = ({ trailerKey, title, backdropPath }: Props) => {
   return (
     <section className="overflow-hidden rounded-2xl border border-zinc-800 bg-black">
       <div className="aspect-video w-full bg-zinc-900">

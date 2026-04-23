@@ -5,9 +5,27 @@ import { Footer } from "@/components/layout/footer";
 import { Header } from "@/components/layout/header";
 import { FilterBar } from "@/components/movie/FilterBar";
 import { getMovieDetailPath } from "@/features/movies/routes";
-import { fetchDiscoverTv, fetchTvGenres, mapTmdbTvToCard } from "@/services/tmdb";
+import { fetchDiscoverMovies, fetchMovieGenres, mapTmdbMovieToCard } from "@/services/tmdb";
 
 const SKELETON_COUNT = 14;
+
+type MovieCardItem = {
+  id: number;
+  title: string;
+  subtitle: string;
+  imageSrc: string;
+};
+
+type GenreItem = { id: number; name: string };
+type PaginationItem = number | "...";
+
+const getErrorMessage = (error: unknown, fallback: string) => {
+  if (error instanceof Error && error.message) {
+    return error.message;
+  }
+
+  return fallback;
+};
 
 const REGION_OPTIONS = [
   { value: "US", label: "United States (US)" },
@@ -20,7 +38,7 @@ const REGION_OPTIONS = [
   { value: "TH", label: "Thailand (TH)" },
 ];
 
-const TvSeriesSkeleton = () => (
+const MoviesSkeleton = () => (
   <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-6 xl:grid-cols-7">
     {Array.from({ length: SKELETON_COUNT }).map((_, index) => (
       <div
@@ -31,7 +49,7 @@ const TvSeriesSkeleton = () => (
   </div>
 );
 
-const buildPaginationItems = (currentPage, totalPages) => {
+const buildPaginationItems = (currentPage: number, totalPages: number): PaginationItem[] => {
   if (totalPages <= 7) {
     return Array.from({ length: totalPages }, (_, index) => index + 1);
   }
@@ -50,7 +68,7 @@ const buildPaginationItems = (currentPage, totalPages) => {
     .filter((page) => page >= 1 && page <= totalPages)
     .sort((a, b) => a - b);
 
-  const result = [];
+  const result: PaginationItem[] = [];
 
   sortedPages.forEach((page, index) => {
     result.push(page);
@@ -64,9 +82,9 @@ const buildPaginationItems = (currentPage, totalPages) => {
   return result;
 };
 
-export const TvSeriesPage = () => {
-  const [series, setSeries] = useState([]);
-  const [genres, setGenres] = useState([]);
+export const MoviesPage = () => {
+  const [movies, setMovies] = useState<MovieCardItem[]>([]);
+  const [genres, setGenres] = useState<GenreItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
@@ -90,7 +108,7 @@ export const TvSeriesPage = () => {
 
     const loadGenres = async () => {
       try {
-        const genreList = await fetchTvGenres("vi-VN");
+        const genreList = await fetchMovieGenres("vi-VN");
         if (active) {
           setGenres(genreList);
         }
@@ -111,12 +129,12 @@ export const TvSeriesPage = () => {
   useEffect(() => {
     let active = true;
 
-    const loadSeries = async () => {
+    const loadMovies = async () => {
       try {
         setLoading(true);
         setError("");
 
-        const data = await fetchDiscoverTv({
+        const data = await fetchDiscoverMovies({
           page: currentPage,
           year: selectedYear,
           genre: selectedGenre,
@@ -126,11 +144,11 @@ export const TvSeriesPage = () => {
 
         if (!active) return;
 
-        setSeries((data.results || []).map(mapTmdbTvToCard));
+        setMovies((data.results || []).map(mapTmdbMovieToCard));
         setTotalPages(Math.min(data.total_pages || 1, 500));
-      } catch (loadError) {
+      } catch (loadError: unknown) {
         if (!active) return;
-        setError(loadError?.message || "Đã xảy ra lỗi khi tải dữ liệu phim bộ.");
+        setError(getErrorMessage(loadError, "Đã xảy ra lỗi khi tải dữ liệu phim."));
       } finally {
         if (active) {
           setLoading(false);
@@ -138,24 +156,24 @@ export const TvSeriesPage = () => {
       }
     };
 
-    loadSeries();
+    loadMovies();
 
     return () => {
       active = false;
     };
   }, [currentPage, selectedYear, selectedGenre, selectedRegion]);
 
-  const handleYearChange = (value) => {
+  const handleYearChange = (value: string) => {
     setSelectedYear(value);
     setCurrentPage(1);
   };
 
-  const handleGenreChange = (value) => {
+  const handleGenreChange = (value: string) => {
     setSelectedGenre(value);
     setCurrentPage(1);
   };
 
-  const handleRegionChange = (value) => {
+  const handleRegionChange = (value: string) => {
     setSelectedRegion(value);
     setCurrentPage(1);
   };
@@ -165,7 +183,7 @@ export const TvSeriesPage = () => {
       <Header />
       <main className="mx-auto w-full max-w-7xl px-4 py-8 sm:px-6 sm:py-10">
         <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
-          <h1 className="text-3xl font-black text-zinc-100 sm:text-4xl">Phim Bộ</h1>
+          <h1 className="text-3xl font-black text-zinc-100 sm:text-4xl">Phim Lẻ</h1>
           <p className="text-sm text-zinc-400">
             Trang {currentPage} / {totalPages}
           </p>
@@ -185,7 +203,7 @@ export const TvSeriesPage = () => {
         />
 
         <section className="transition-opacity duration-300">
-          {loading && <TvSeriesSkeleton />}
+          {loading && <MoviesSkeleton />}
 
           {!loading && error && (
             <div className="rounded-xl border border-red-500/30 bg-zinc-900 p-4 text-sm text-red-200">
@@ -193,22 +211,22 @@ export const TvSeriesPage = () => {
             </div>
           )}
 
-          {!loading && !error && series.length === 0 && (
+          {!loading && !error && movies.length === 0 && (
             <div className="rounded-xl border border-zinc-700 bg-zinc-900/70 p-5 text-sm text-zinc-300">
-              Không tìm thấy phim bộ phù hợp với bộ lọc hiện tại. Hãy thử đổi năm, thể loại hoặc
-              quốc gia.
+              Không tìm thấy phim phù hợp với bộ lọc hiện tại. Hãy thử đổi năm, thể loại hoặc quốc
+              gia.
             </div>
           )}
 
-          {!loading && !error && series.length > 0 && (
+          {!loading && !error && movies.length > 0 && (
             <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-6 xl:grid-cols-7">
-              {series.map((item) => (
+              {movies.map((movie) => (
                 <MovieCard
-                  key={item.id}
-                  href={getMovieDetailPath("tv", item.id)}
-                  title={item.title}
-                  subtitle={item.subtitle}
-                  imageSrc={item.imageSrc}
+                  key={movie.id}
+                  href={getMovieDetailPath("movie", movie.id)}
+                  title={movie.title}
+                  subtitle={movie.subtitle}
+                  imageSrc={movie.imageSrc}
                 />
               ))}
             </div>

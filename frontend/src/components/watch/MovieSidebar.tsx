@@ -3,7 +3,23 @@ import { Link } from "react-router-dom";
 
 const IMAGE_BASE = "https://image.tmdb.org/t/p/w500";
 
-export const MovieSidebar = ({ credits, similar, trending, type }) => {
+type CardItem = {
+  id?: number | string;
+  title?: string;
+  name?: string;
+  release_date?: string;
+  first_air_date?: string;
+  poster_path?: string | null;
+};
+
+type Props = {
+  credits?: { cast?: Array<Record<string, unknown>> };
+  similar?: { results?: CardItem[] };
+  trending?: { results?: CardItem[] };
+  type: "movie" | "tv";
+};
+
+export const MovieSidebar = ({ credits, similar, trending, type }: Props) => {
   const castList = credits?.cast?.slice(0, 8) || [];
   const similarList = similar?.results?.slice(0, 10) || [];
   const trendingList = trending?.results?.slice(0, 10) || [];
@@ -53,11 +69,12 @@ export const MovieSidebar = ({ credits, similar, trending, type }) => {
             similarList.map((item) => {
               const movieTitle = item.title || item.name || "Untitled";
               const subtitle = item.release_date || item.first_air_date || "Đang cập nhật";
+              const targetId = item.id ?? 0;
 
               return (
                 <Link
-                  key={item.id}
-                  to={`/watch/${type}/${item.id}`}
+                  key={`${type}-similar-${targetId}-${movieTitle}`}
+                  to={`/watch/${type}/${targetId}`}
                   className="group flex gap-3 rounded-xl border border-zinc-800 bg-zinc-900/70 p-2 transition hover:border-zinc-600 hover:bg-zinc-800/80"
                 >
                   <div className="h-16 w-12 shrink-0 overflow-hidden rounded-md bg-zinc-800">
@@ -90,11 +107,12 @@ export const MovieSidebar = ({ credits, similar, trending, type }) => {
             trendingList.map((item) => {
               const movieTitle = item.title || item.name || "Untitled";
               const subtitle = item.release_date || item.first_air_date || "Đang cập nhật";
+              const targetId = item.id ?? 0;
 
               return (
                 <Link
-                  key={item.id}
-                  to={`/watch/${type}/${item.id}`}
+                  key={`${type}-trending-${targetId}-${movieTitle}`}
+                  to={`/watch/${type}/${targetId}`}
                   className="group flex gap-3 rounded-xl border border-zinc-800 bg-zinc-900/70 p-2 transition hover:border-zinc-600 hover:bg-zinc-800/80"
                 >
                   <div className="h-16 w-12 shrink-0 overflow-hidden rounded-md bg-zinc-800">
