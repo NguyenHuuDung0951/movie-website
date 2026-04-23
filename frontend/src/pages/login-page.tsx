@@ -1,5 +1,12 @@
 import { AuthForm } from "@/components/auth/auth-form";
-
+import { Footer } from "@/components/layout/footer";
+import { Header } from "@/components/layout/header";
 export const LoginPage = () => {
-  return <AuthForm mode="login" />;
+  return (
+    <>
+      <Header />
+      <AuthForm mode="login" />
+      <Footer />
+    </>
+  );
 };

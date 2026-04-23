@@ -22,10 +22,6 @@ export const useAuth = () => {
 
   const registerMutation = useMutation({
     mutationFn: (payload: RegisterFormInput) => registerApi(payload),
-    onSuccess: (data) => {
-      persistToken(data.token);
-      dispatch(setAuth({ token: data.token, user: data.user }));
-    },
   });
 
   const meQuery = useQuery({

@@ -3,8 +3,8 @@ import { useAuth } from "@/hooks/use-auth";
 
 const menuItems = [
   { label: "Trang chủ", href: "/#home" },
-  { label: "Phim Bộ", href: "/#hot" },
-  { label: "Phim Lẻ", href: "/moviecaroucelalone" },
+  { label: "Phim Bộ", href: "/tv-series" },
+  { label: "Phim Lẻ", href: "/movies" },
   { label: "Thể loại", href: "/" },
   // { label: "Danh sách phim của tôi", href: "/" },
 ];

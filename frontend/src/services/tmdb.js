@@ -18,6 +18,15 @@ export const mapTmdbMovieToCard = (movie) => ({
   imageSrc: movie.poster_path ? `${TMDB_POSTER_BASE}${movie.poster_path}` : "/home-background.jpg",
 });
 
+export const mapTmdbTvToCard = (series) => ({
+  id: series.id,
+  title: series.name,
+  subtitle: series.original_name || series.name,
+  imageSrc: series.poster_path
+    ? `${TMDB_POSTER_BASE}${series.poster_path}`
+    : "/home-background.jpg",
+});
+
 export const fetchDiscoverMovies = async ({
   page = 1,
   year,
@@ -65,6 +74,51 @@ export const fetchMovieGenres = async (language = "vi-VN") => {
 
   if (!response.ok) {
     throw new Error("Không thể tải danh sách thể loại.");
+  }
+
+  const data = await response.json();
+  return data.genres || [];
+};
+
+export const fetchDiscoverTv = async ({ page = 1, year, genre, region, language = "vi-VN" }) => {
+  const apiKey = getApiKey();
+  const params = new URLSearchParams({
+    api_key: apiKey,
+    sort_by: "popularity.desc",
+    include_adult: "false",
+    include_null_first_air_dates: "false",
+    language,
+    page: String(page),
+  });
+
+  if (year) {
+    params.set("first_air_date_year", String(year));
+  }
+
+  if (genre) {
+    params.set("with_genres", String(genre));
+  }
+
+  if (region) {
+    params.set("with_origin_country", region);
+  }
+
+  const response = await fetch(`${TMDB_API_URL}/discover/tv?${params.toString()}`);
+
+  if (!response.ok) {
+    throw new Error("Không thể tải danh sách phim bộ.");
+  }
+
+  return response.json();
+};
+
+export const fetchTvGenres = async (language = "vi-VN") => {
+  const apiKey = getApiKey();
+  const params = new URLSearchParams({ api_key: apiKey, language });
+  const response = await fetch(`${TMDB_API_URL}/genre/tv/list?${params.toString()}`);
+
+  if (!response.ok) {
+    throw new Error("Không thể tải danh sách thể loại phim bộ.");
   }
 
   const data = await response.json();

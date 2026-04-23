@@ -1,12 +1,25 @@
+import { Navigate } from "react-router-dom";
 import { Header } from "@/components/layout/header";
+import { Footer } from "@/components/layout/footer";
 import { useAuth } from "@/hooks/use-auth";
 
 export const ProfilePage = () => {
-  const { authState } = useAuth();
+  const { authState, meQuery } = useAuth();
   const user = authState.user;
 
+  if (!user && meQuery.isLoading) {
+    return (
+      <>
+        <Header />
+        <main className="mx-auto mt-10 w-full max-w-3xl rounded-2xl border border-zinc-800 bg-[#151618]/92 px-6 py-8 text-zinc-300">
+          Đang tải thông tin hồ sơ...
+        </main>
+      </>
+    );
+  }
+
   if (!user) {
-    return null;
+    return <Navigate to="/login" replace />;
   }
 
   return (
@@ -31,6 +44,7 @@ export const ProfilePage = () => {
           </div>
         </div>
       </main>
+      <Footer />
     </>
   );
 };
