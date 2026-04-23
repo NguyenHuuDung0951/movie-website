@@ -26,10 +26,11 @@ export const AuthForm = ({ mode }: Props) => {
   const onSubmit = async (values: LoginFormInput | RegisterFormInput) => {
     if (isLogin) {
       await loginMutation.mutateAsync(values as LoginFormInput);
+      navigate("/");
     } else {
       await registerMutation.mutateAsync(values as RegisterFormInput);
+      navigate("/login");
     }
-    navigate("/admin");
   };
 
   const loading = loginMutation.isPending || registerMutation.isPending;

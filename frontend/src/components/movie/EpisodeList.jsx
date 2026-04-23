@@ -1,3 +1,4 @@
+import React from "react";
 export const EpisodeList = ({ totalEpisodes = 0 }) => {
   if (!totalEpisodes) {
     return null;

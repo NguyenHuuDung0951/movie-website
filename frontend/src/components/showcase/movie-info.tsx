@@ -1,5 +1,5 @@
 import { ShowcaseMovie } from "@/features/movies/types";
-import { getMovieDetailPath } from "@/features/movies/routes";
+import { getWatchPath } from "@/features/movies/routes";
 import { Link } from "react-router-dom";
 
 type Props = {
@@ -28,7 +28,7 @@ export const MovieInfo = ({ movie }: Props) => {
 
       <div className="flex flex-wrap gap-3">
         <Link
-          to={getMovieDetailPath("movie", movie.id)}
+          to={getWatchPath("movie", movie.id)}
           aria-label={`Xem phim ${movie.title}`}
           className="rounded-full bg-white px-6 py-3 text-sm font-semibold text-zinc-900 transition hover:bg-zinc-200"
         >
