@@ -1,8 +1,17 @@
 const TMDB_API_URL = "https://api.themoviedb.org/3";
 const TMDB_POSTER_BASE = "https://image.tmdb.org/t/p/w500";
 
+const normalizeEnvValue = (value) => {
+  const normalized = String(value || "").trim();
+  if (!normalized || normalized === "undefined" || normalized === "null") {
+    return "";
+  }
+
+  return normalized;
+};
+
 const getApiKey = () => {
-  const apiKey = import.meta.env.VITE_TMDB_API_KEY;
+  const apiKey = normalizeEnvValue(import.meta.env.VITE_TMDB_API_KEY);
 
   if (!apiKey) {
     throw new Error("Thiếu VITE_TMDB_API_KEY để tải dữ liệu phim.");
