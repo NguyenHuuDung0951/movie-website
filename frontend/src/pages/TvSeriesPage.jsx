@@ -201,7 +201,7 @@ export const TvSeriesPage = () => {
           )}
 
           {!loading && !error && series.length > 0 && (
-            <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-6 xl:grid-cols-7">
+            <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-6 xl:grid-cols-7 py-2">
               {series.map((item) => (
                 <MovieCard
                   key={item.id}

@@ -6,7 +6,7 @@ import { Header } from "@/components/layout/header";
 import { EpisodeList } from "@/components/watch/EpisodeList";
 import { MovieSidebar } from "@/components/watch/MovieSidebar";
 import { VideoPlayer } from "@/components/watch/VideoPlayer";
-import { fetchWatchBundle, pickYoutubeWatchKey } from "@/services/watch";
+import { fetchWatchBundle, pickPlayableWatchVideo } from "@/services/watch";
 
 const TMDB_IMAGE = "https://image.tmdb.org/t/p/w500";
 
@@ -94,8 +94,8 @@ export const WatchPage = () => {
   const subtitle = payload?.detail?.original_title || payload?.detail?.original_name || title;
   const releaseDate = payload?.detail?.release_date || payload?.detail?.first_air_date;
   const year = formatYear(releaseDate);
-  const trailerKey = useMemo(() => {
-    return pickYoutubeWatchKey(payload?.videos);
+  const selectedVideo = useMemo(() => {
+    return pickPlayableWatchVideo(payload?.videos);
   }, [payload]);
 
   if (loading) {
@@ -140,7 +140,7 @@ export const WatchPage = () => {
         <div className="grid gap-6 xl:grid-cols-[minmax(0,1fr)_320px]">
           <div className="space-y-6">
             <VideoPlayer
-              trailerKey={trailerKey}
+              selectedVideo={selectedVideo}
               title={title}
               backdropPath={
                 payload?.detail?.backdrop_path
