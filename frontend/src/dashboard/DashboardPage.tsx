@@ -1,85 +1,113 @@
-import { useEffect, useMemo, useState } from "react";
-import { createDashboardData } from "@/dashboard/mock-data";
-import { DateRangeKey } from "@/dashboard/types";
-import { Sidebar } from "@/dashboard/Sidebar";
-import { TopBar } from "@/dashboard/TopBar";
-import { KPICards } from "@/dashboard/KPICards";
-import { ViewsChart } from "@/dashboard/ViewsChart";
-import { RevenueSection } from "@/dashboard/RevenueSection";
-import { TrendingContent } from "@/dashboard/TrendingContent";
-import { GenreChart } from "@/dashboard/GenreChart";
-import { HeatmapSection } from "@/dashboard/HeatmapSection";
-import { DeviceChart } from "@/dashboard/DeviceChart";
-import { GeoMap } from "@/dashboard/GeoMap";
-import { MemberGrowth } from "@/dashboard/MemberGrowth";
-import { RetentionCohort } from "@/dashboard/RetentionCohort";
-import { LibraryStats } from "@/dashboard/LibraryStats";
-import { ActivityFeed } from "@/dashboard/ActivityFeed";
+import React from "react";
+import { Users, Film, PlayCircle, CreditCard } from "lucide-react";
+import { DashboardLayout } from "./layout/DashboardLayout";
+import { StatCard } from "./components/StatCard";
+import { TopTrendingList } from "./components/TopTrendingList";
+import { ViewershipChart } from "./charts/ViewershipChart";
+import { GenreDistributionChart } from "./charts/GenreDistributionChart";
+import { UserGrowthChart } from "./charts/UserGrowthChart";
+import { recentActivities } from "./data/mockData";
 
-export const DashboardPage = () => {
-  const [range, setRange] = useState<DateRangeKey>("7D");
-  const [loading, setLoading] = useState(false);
-  const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
-
-  const data = useMemo(() => createDashboardData(range), [range]);
-
-  useEffect(() => {
-    setLoading(true);
-    const timeout = setTimeout(() => {
-      setLoading(false);
-    }, 480);
-
-    return () => clearTimeout(timeout);
-  }, [range]);
-
+export const DashboardPage: React.FC = () => {
   return (
-    <div className="min-h-screen bg-[#0F0F13] text-zinc-100">
-      <Sidebar mobileOpen={mobileSidebarOpen} onClose={() => setMobileSidebarOpen(false)} />
-
-      <div className="lg:pl-64">
-        <TopBar
-          activeRange={range}
-          onRangeChange={setRange}
-          onMenuClick={() => setMobileSidebarOpen((prev) => !prev)}
-        />
-
-        <div className="grid gap-5 px-4 py-5 lg:px-6 xl:grid-cols-[minmax(0,1fr)_320px]">
-          <main className="space-y-5">
-            <KPICards items={data.kpis} loading={loading} />
-            <ViewsChart data={data.traffic} loading={loading} />
-            <RevenueSection
-              byPeriod={data.revenueByPeriod}
-              byPlan={data.revenueByPlan}
-              totalMRR={data.totalMRR}
-              loading={loading}
-            />
-            <section className="grid gap-4 2xl:grid-cols-2">
-              <TrendingContent items={data.trending} loading={loading} />
-              <GenreChart data={data.genreDistribution} loading={loading} />
-            </section>
-
-            <section className="grid gap-4 2xl:grid-cols-3">
-              <div className="2xl:col-span-2">
-                <HeatmapSection data={data.heatmap} loading={loading} />
-              </div>
-              <DeviceChart data={data.deviceBreakdown} loading={loading} />
-            </section>
-
-            <GeoMap cities={data.geoCities} loading={loading} />
-
-            <section className="grid gap-4 2xl:grid-cols-2">
-              <MemberGrowth data={data.memberGrowth} loading={loading} />
-              <RetentionCohort rows={data.retentionRows} loading={loading} />
-            </section>
-
-            <LibraryStats stats={data.libraryStats} loading={loading} />
-          </main>
-
-          <aside className="space-y-4 xl:sticky xl:top-24 xl:h-fit">
-            <ActivityFeed activities={data.activities} loading={loading} />
-          </aside>
+    <DashboardLayout>
+      <div className="mb-8 flex flex-col gap-2 md:flex-row md:items-end md:justify-between">
+        <div>
+          <h1 className="text-3xl font-bold tracking-tight text-white">Tổng quan</h1>
+          <p className="text-zinc-500 mt-1">Chào mừng trở lại, xem qua các chỉ số của nền tảng hôm nay.</p>
+        </div>
+        <div className="flex items-center gap-3 mt-4 md:mt-0">
+          <button className="rounded-lg bg-zinc-800 px-4 py-2 text-sm font-medium text-white hover:bg-zinc-700 transition-colors">
+            Xuất báo cáo
+          </button>
+          <button className="rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-500 transition-colors shadow-lg shadow-blue-500/20">
+            Thêm phim mới
+          </button>
         </div>
       </div>
-    </div>
+
+      {/* Stats Cards */}
+      <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4 mb-8">
+        <StatCard
+          title="Tổng thành viên"
+          value="12,345"
+          icon={Users}
+          trend="+12%"
+          trendUp={true}
+          colorClass="text-blue-500"
+        />
+        <StatCard
+          title="Tổng lượt xem"
+          value="2.4M"
+          icon={PlayCircle}
+          trend="+24%"
+          trendUp={true}
+          colorClass="text-emerald-500"
+        />
+        <StatCard
+          title="Tổng số phim"
+          value="854"
+          icon={Film}
+          trend="+5%"
+          trendUp={true}
+          colorClass="text-purple-500"
+        />
+        <StatCard
+          title="Doanh thu Premium"
+          value="45.2M ₫"
+          icon={CreditCard}
+          trend="-2%"
+          trendUp={false}
+          colorClass="text-rose-500"
+        />
+      </div>
+
+      {/* Charts Row 1 */}
+      <div className="grid grid-cols-1 gap-6 lg:grid-cols-3 mb-8">
+        <div className="lg:col-span-2">
+          <ViewershipChart />
+        </div>
+        <div className="lg:col-span-1">
+          <GenreDistributionChart />
+        </div>
+      </div>
+
+      {/* Charts Row 2 */}
+      <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
+        <div className="lg:col-span-2 flex flex-col gap-6">
+          <UserGrowthChart />
+          
+          {/* Recent Activities List */}
+          <div className="rounded-2xl border border-zinc-800 bg-[#151618] p-6 shadow-sm">
+            <h2 className="text-lg font-bold text-white mb-6">Hoạt động gần đây</h2>
+            <div className="space-y-6">
+              {recentActivities.map((activity) => (
+                <div key={activity.id} className="flex items-start gap-4">
+                  <img
+                    src={activity.avatar}
+                    alt={activity.user}
+                    className="h-10 w-10 rounded-full border border-zinc-700"
+                  />
+                  <div>
+                    <p className="text-sm text-zinc-300">
+                      <span className="font-semibold text-white">{activity.user}</span>{" "}
+                      {activity.action}
+                    </p>
+                    <p className="text-xs text-zinc-500 mt-1">{activity.time}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+            <button className="w-full mt-6 rounded-lg py-2.5 text-sm font-medium text-zinc-400 hover:text-white hover:bg-zinc-800/50 transition-colors">
+              Xem tất cả hoạt động
+            </button>
+          </div>
+        </div>
+        
+        <div className="lg:col-span-1">
+          <TopTrendingList />
+        </div>
+      </div>
+    </DashboardLayout>
   );
 };
