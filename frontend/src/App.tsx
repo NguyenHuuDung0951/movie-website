@@ -1,5 +1,5 @@
 import React from "react";
-import { Navigate, Route, Routes } from "react-router-dom";
+import { Navigate, Route, Routes, useLocation } from "react-router-dom";
 import { useAuth } from "@/hooks/use-auth";
 import { HomePage } from "@/pages/home-page";
 import { LoginPage } from "@/pages/login-page";
@@ -27,8 +27,15 @@ const GuestRoute = ({ children }: ProtectedRouteProps) => {
 };
 
 const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
+  const location = useLocation();
   const { authState, meQuery } = useAuth();
   const token = authState.token || localStorage.getItem("token");
+  const bypassAuth = import.meta.env.VITE_BYPASS_AUTH === "true";
+
+  // Allow opening admin UI without backend auth in local/dev mode.
+  if (bypassAuth && location.pathname.startsWith("/admin")) {
+    return <>{children}</>;
+  }
 
   if (!token) {
     return <Navigate to="/login" replace />;
@@ -73,6 +80,14 @@ export const App = () => {
       />
       <Route
         path="/admin"
+        element={
+          <ProtectedRoute>
+            <Navigate to="/admin/dashboard" replace />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/admin/dashboard"
         element={
           <ProtectedRoute>
             <AdminPage />
