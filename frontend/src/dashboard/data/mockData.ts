@@ -32,7 +32,7 @@ export const topTrendingMovies = [
     title: "Dune: Part Two",
     views: "2.5M",
     trend: "+15%",
-    image: "https://image.tmdb.org/t/p/w200/1pdfLvkbY9ohJlCjQH2JGjjcJsV.jpg"
+    image: "https://placehold.co/200x300/27272a/ffffff?text=Dune+2"
   },
   {
     id: 2,
@@ -46,7 +46,7 @@ export const topTrendingMovies = [
     title: "Godzilla x Kong",
     views: "1.5M",
     trend: "+22%",
-    image: "https://image.tmdb.org/t/p/w200/tMefBSflR6PGQLvLuPEoBiY155A.jpg"
+    image: "https://placehold.co/200x300/27272a/ffffff?text=GxK"
   },
   {
     id: 4,
@@ -92,5 +92,88 @@ export const recentActivities = [
     action: "đã bình luận trên phim Kung Fu Panda 4",
     time: "2 giờ trước",
     avatar: "https://ui-avatars.com/api/?name=Pham+Thi+D&background=random"
+  }
+];
+
+export const allMovies = [
+  {
+    id: 1,
+    title: "Dune: Part Two",
+    releaseYear: 2024,
+    genres: ["Hành động", "Viễn tưởng"],
+    rating: 4.8,
+    views: "2.5M",
+    status: "published",
+    image: "https://placehold.co/200x300/27272a/ffffff?text=Dune+2",
+  },
+  {
+    id: 2,
+    title: "Kung Fu Panda 4",
+    releaseYear: 2024,
+    genres: ["Hoạt hình", "Hài kịch"],
+    rating: 4.5,
+    views: "1.8M",
+    status: "published",
+    image: "https://image.tmdb.org/t/p/w200/kDp1vUBnMpe8ak4rjgl3cLELqjU.jpg",
+  },
+  {
+    id: 3,
+    title: "Godzilla x Kong",
+    releaseYear: 2024,
+    genres: ["Hành động", "Viễn tưởng"],
+    rating: 4.3,
+    views: "1.5M",
+    status: "published",
+    image: "https://placehold.co/200x300/27272a/ffffff?text=GxK",
+  },
+  {
+    id: 4,
+    title: "Civil War",
+    releaseYear: 2024,
+    genres: ["Hành động", "Kịch tính"],
+    rating: 4.0,
+    views: "1.2M",
+    status: "draft",
+    image: "https://image.tmdb.org/t/p/w200/sh7Rg8Er3tFcN9BpKIPOMvALgZd.jpg",
+  },
+  {
+    id: 5,
+    title: "Deadpool & Wolverine",
+    releaseYear: 2024,
+    genres: ["Hành động", "Hài kịch"],
+    rating: 0,
+    views: "0",
+    status: "draft",
+    image: "https://image.tmdb.org/t/p/w200/8cdWjvZQUExUUTzyp4t6EDMubfO.jpg",
+  },
+  {
+    id: 6,
+    title: "The Fall Guy",
+    releaseYear: 2024,
+    genres: ["Hành động", "Tình cảm"],
+    rating: 4.2,
+    views: "800K",
+    status: "published",
+    image: "https://placehold.co/200x300/27272a/ffffff?text=Fall+Guy",
+  },
+  {
+    id: 7,
+    title: "Oppenheimer",
+    releaseYear: 2023,
+    genres: ["Lịch sử", "Kịch tính"],
+    rating: 4.9,
+    views: "5.2M",
+    status: "published",
+    image: "https://image.tmdb.org/t/p/w200/8Gxv8gSFCU0XGDykEGv7zR1n2ua.jpg",
+  },
+  {
+    id: 8,
+    title: "Barbie",
+    releaseYear: 2023,
+    genres: ["Hài kịch", "Tình cảm"],
+    rating: 4.4,
+    views: "4.8M",
+    status: "published",
+    image: "https://image.tmdb.org/t/p/w200/iuFNMS8U5cb6xfzi51Dbkovj7vM.jpg",
   }
 ];

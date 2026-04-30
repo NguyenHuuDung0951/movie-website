@@ -10,7 +10,9 @@ import { MoviesPage } from "@/pages/MoviesPage";
 import { TvSeriesPage } from "@/pages/TvSeriesPage";
 import { WatchPage } from "@/pages/WatchPage";
 import { ProfilePage } from "@/pages/profile-page";
-
+import { AdminMoviesPage } from "@/pages/admin-movies-page";
+import { AdminAddMoviePage } from "@/pages/admin-add-movie-page";
+import { AdminMovieDetailsPage } from "@/pages/admin-movie-details-page";
 type ProtectedRouteProps = {
   children: React.ReactNode;
 };
@@ -91,6 +93,30 @@ export const App = () => {
         element={
           <ProtectedRoute>
             <AdminPage />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/admin/movies"
+        element={
+          <ProtectedRoute>
+            <AdminMoviesPage />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/admin/movies/new"
+        element={
+          <ProtectedRoute>
+            <AdminAddMoviePage />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/admin/movies/:id"
+        element={
+          <ProtectedRoute>
+            <AdminMovieDetailsPage />
           </ProtectedRoute>
         }
       />
