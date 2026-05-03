@@ -1,53 +1,68 @@
-import React from "react";
-import { 
-  Bell, 
-  Search, 
-  Menu,
-  User
-} from "lucide-react";
+import { Link } from "react-router-dom";
+import { useAuth } from "@/hooks/use-auth";
 
-interface HeaderProps {
-  onMenuClick: () => void;
-}
+const menuItems = [
+  { label: "Trang chủ", href: "/#home" },
+  { label: "Phim Bộ", href: "/tv-series" },
+  { label: "Phim Lẻ", href: "/movies" },
+  { label: "Thể loại", href: "/" },
+  // { label: "Danh sách phim của tôi", href: "/" },
+];
 
-export const Header: React.FC<HeaderProps> = ({ onMenuClick }) => {
+export const Header = () => {
+  const { authState, logout } = useAuth();
+  const isLoggedIn = Boolean(authState.user);
+
   return (
-    <header className="sticky top-0 z-20 flex h-16 w-full items-center justify-between border-b border-zinc-800 bg-[#151618]/80 px-4 backdrop-blur-md lg:px-8">
-      <div className="flex items-center gap-4">
-        <button
-          onClick={onMenuClick}
-          className="rounded-lg p-2 text-zinc-400 hover:bg-zinc-800 hover:text-white lg:hidden"
-        >
-          <Menu size={20} />
-        </button>
-        
-        <div className="hidden items-center gap-2 rounded-full border border-zinc-800 bg-zinc-900/50 px-4 py-1.5 md:flex">
-          <Search size={16} className="text-zinc-500" />
+    <header className="sticky top-0 z-10 border-b border-zinc-800/80 bg-[#0b0b0c]/92 backdrop-blur">
+      <div className="mx-auto flex w-full max-w-6xl flex-wrap items-center gap-3 px-4 py-3 sm:px-6">
+        <Link to="/" className="text-xl font-black tracking-tight text-zinc-100">
+          CINEMAVERSA
+        </Link>
+
+        <nav className="order-3 w-full sm:order-2 sm:w-auto sm:flex-1">
+          <ul className="flex flex-wrap items-center gap-2 sm:justify-center">
+            {menuItems.map((item) => (
+              <li key={item.label}>
+                <Link
+                  to={item.href}
+                  className="inline-flex h-10 items-center rounded-full px-3 text-sm font-medium text-zinc-300 transition hover:bg-zinc-800 hover:text-white"
+                >
+                  {item.label}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </nav>
+
+        <div className="order-2 ml-auto flex flex-wrap items-center justify-end gap-2 sm:order-3">
           <input
             type="text"
-            placeholder="Tìm kiếm phim, người dùng..."
-            className="w-64 bg-transparent text-sm text-white placeholder-zinc-500 outline-none"
+            placeholder="Tìm kiếm phim..."
+            className="h-10 w-full min-w-0 flex-1 rounded-full border border-zinc-700 bg-zinc-900/70 px-4 text-sm text-zinc-100 placeholder:text-zinc-500 outline-none transition focus:border-zinc-400 sm:w-56 sm:flex-none"
           />
+          <button
+            type="button"
+            className="inline-flex h-10 items-center rounded-full border border-zinc-700 px-4 text-sm font-semibold text-zinc-200 transition hover:bg-zinc-800"
+          >
+            Giỏ hàng
+          </button>
+          <Link
+            to={isLoggedIn ? "/profile" : "/login"}
+            className="inline-flex h-10 items-center rounded-full border border-zinc-700 px-3 text-sm font-medium text-zinc-200 transition hover:bg-zinc-800 hover:text-white"
+          >
+            {isLoggedIn ? "Hồ sơ" : "Đăng nhập"}
+          </Link>
+          {isLoggedIn && (
+            <button
+              type="button"
+              onClick={logout}
+              className="inline-flex h-10 items-center rounded-full border border-zinc-700 px-4 text-sm font-semibold text-zinc-200 transition hover:bg-zinc-800"
+            >
+              Đăng xuất
+            </button>
+          )}
         </div>
-      </div>
-
-      <div className="flex items-center gap-3">
-        <button className="relative rounded-full p-2 text-zinc-400 hover:bg-zinc-800 hover:text-white transition-colors">
-          <Bell size={20} />
-          <span className="absolute top-1.5 right-1.5 flex h-2 w-2 rounded-full bg-rose-500"></span>
-        </button>
-        
-        <div className="h-8 w-px bg-zinc-800 mx-1"></div>
-        
-        <button className="flex items-center gap-2 rounded-full pl-2 pr-1 py-1 hover:bg-zinc-800 transition-colors">
-          <div className="flex flex-col items-end hidden md:flex">
-            <span className="text-sm font-medium text-white">Admin</span>
-            <span className="text-xs text-zinc-500">Quản trị viên</span>
-          </div>
-          <div className="flex h-8 w-8 items-center justify-center rounded-full bg-blue-600 text-white">
-            <User size={16} />
-          </div>
-        </button>
       </div>
     </header>
   );

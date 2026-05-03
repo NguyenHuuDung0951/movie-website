@@ -10,6 +10,7 @@ import { MoviesPage } from "@/pages/MoviesPage";
 import { TvSeriesPage } from "@/pages/TvSeriesPage";
 import { WatchPage } from "@/pages/WatchPage";
 import { ProfilePage } from "@/pages/profile-page";
+import { SupportCenterPage } from "@/pages/support-center-page";
 
 type ProtectedRouteProps = {
   children: React.ReactNode;
@@ -106,6 +107,7 @@ export const App = () => {
       <Route path="/moviecaroucelalone" element={<MoviesPage />} />
       <Route path="/tv-series" element={<TvSeriesPage />} />
       <Route path="/moviecaroucelseries" element={<TvSeriesPage />} />
+      <Route path="/support-center" element={<SupportCenterPage />} />
       <Route path="/watch/:type/:id" element={<WatchPage />} />
       <Route path="/:mediaType/:id" element={<MovieDetailPage />} />
       <Route path="*" element={<Navigate to="/" replace />} />

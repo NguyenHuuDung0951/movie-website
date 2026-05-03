@@ -6,6 +6,7 @@ const menuItems = [
   { label: "Phim Bộ", href: "/tv-series" },
   { label: "Phim Lẻ", href: "/movies" },
   { label: "Thể loại", href: "/" },
+  { label: "Hỗ trợ", href: "/support-center" },
   // { label: "Danh sách phim của tôi", href: "/" },
 ];
 
@@ -32,14 +33,6 @@ export const Header = () => {
                 </Link>
               </li>
             ))}
-            <li>
-              <Link
-                to={isLoggedIn ? "/profile" : "/login"}
-                className="inline-flex h-10 items-center rounded-full border border-zinc-700 px-3 text-sm font-medium text-zinc-200 transition hover:bg-zinc-800 hover:text-white"
-              >
-                {isLoggedIn ? "Hồ sơ" : "Đăng nhập"}
-              </Link>
-            </li>
           </ul>
         </nav>
 
@@ -55,6 +48,12 @@ export const Header = () => {
           >
             Giỏ hàng
           </button>
+          <Link
+            to={isLoggedIn ? "/profile" : "/login"}
+            className="inline-flex h-10 items-center rounded-full border border-zinc-700 px-3 text-sm font-medium text-zinc-200 transition hover:bg-zinc-800 hover:text-white"
+          >
+            {isLoggedIn ? "Hồ sơ" : "Đăng nhập"}
+          </Link>
           {isLoggedIn && (
             <button
               type="button"
