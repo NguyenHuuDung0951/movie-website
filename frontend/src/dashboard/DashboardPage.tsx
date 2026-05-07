@@ -14,14 +14,13 @@ export const DashboardPage: React.FC = () => {
       <div className="mb-8 flex flex-col gap-2 md:flex-row md:items-end md:justify-between">
         <div>
           <h1 className="text-3xl font-bold tracking-tight text-white">Tổng quan</h1>
-          <p className="text-zinc-500 mt-1">Chào mừng trở lại, xem qua các chỉ số của nền tảng hôm nay.</p>
+          <p className="text-zinc-500 mt-1">
+            Chào mừng trở lại, xem qua các chỉ số của nền tảng hôm nay.
+          </p>
         </div>
         <div className="flex items-center gap-3 mt-4 md:mt-0">
-          <button className="rounded-lg bg-zinc-800 px-4 py-2 text-sm font-medium text-white hover:bg-zinc-700 transition-colors">
+          <button className="rounded-lg bg-zinc-800 px-4 py-2 text-sm font-medium text-white hover:bg-zinc-700 transition-colors shadow-lg shadow-blue-500/20">
             Xuất báo cáo
-          </button>
-          <button className="rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-500 transition-colors shadow-lg shadow-blue-500/20">
-            Thêm phim mới
           </button>
         </div>
       </div>
@@ -76,7 +75,7 @@ export const DashboardPage: React.FC = () => {
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
         <div className="lg:col-span-2 flex flex-col gap-6">
           <UserGrowthChart />
-          
+
           {/* Recent Activities List */}
           <div className="rounded-2xl border border-zinc-800 bg-[#151618] p-6 shadow-sm">
             <h2 className="text-lg font-bold text-white mb-6">Hoạt động gần đây</h2>
@@ -103,7 +102,7 @@ export const DashboardPage: React.FC = () => {
             </button>
           </div>
         </div>
-        
+
         <div className="lg:col-span-1">
           <TopTrendingList />
         </div>
