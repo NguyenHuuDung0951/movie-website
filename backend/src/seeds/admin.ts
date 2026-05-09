@@ -5,8 +5,8 @@ import { connectDB } from "../config/db";
 const createAdminUser = async () => {
   await connectDB();
 
-  const adminEmail = "admin@cinemaversa.com";
-  const adminPassword = "Admin@123456";
+  const adminEmail = "admin@gmail.com";
+  const adminPassword = "123456";
 
   try {
     // Check if admin already exists

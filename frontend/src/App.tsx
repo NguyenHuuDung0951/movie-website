@@ -10,6 +10,10 @@ import { MoviesPage } from "@/pages/MoviesPage";
 import { TvSeriesPage } from "@/pages/TvSeriesPage";
 import { WatchPage } from "@/pages/WatchPage";
 import { ProfilePage } from "@/pages/profile-page";
+import { AdminMoviesPage } from "@/pages/admin-movies-page";
+import { AdminAddMoviePage } from "@/pages/admin-add-movie-page";
+import { AdminMovieDetailsPage } from "@/pages/admin-movie-details-page";
+import { SupportCenterPage } from "@/pages/support-center-page";
 
 type ProtectedRouteProps = {
   children: React.ReactNode;

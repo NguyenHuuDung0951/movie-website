@@ -146,7 +146,7 @@ export const SupportCenterPage = () => {
         <section className="mb-8 overflow-hidden rounded-[2rem] border border-white/10 bg-white/5 p-6 shadow-2xl shadow-black/30 backdrop-blur-xl sm:p-8">
           <div className="flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
             <div className="max-w-3xl space-y-4">
-              <div className="inline-flex items-center gap-2 rounded-full border border-cyan-400/20 bg-cyan-400/10 px-4 py-2 text-sm font-medium text-cyan-100">
+              <div className="inline-flex items-center gap-2 rounded-full border border-amber-400/20 bg-amber-400/10 px-4 py-2 text-sm font-medium text-amber-100">
                 <Sparkles className="h-4 w-4" />
                 Trung tâm hỗ trợ
               </div>
@@ -166,7 +166,7 @@ export const SupportCenterPage = () => {
               ].map((item) => (
                 <div key={item.label} className="rounded-2xl border border-white/10 bg-black/20 p-4">
                   <div className="flex items-center gap-3 text-zinc-300">
-                    <item.icon className="h-5 w-5 text-cyan-300" />
+                    <item.icon className="h-5 w-5 text-amber-300" />
                     <span className="text-sm">{item.label}</span>
                   </div>
                   <p className="mt-2 text-2xl font-bold text-white">{item.value}</p>
@@ -190,7 +190,7 @@ export const SupportCenterPage = () => {
                       onClick={() => scrollToSection(section.id)}
                       className={`flex min-w-[180px] flex-col rounded-2xl border px-4 py-3 text-left transition ${
                         isActive
-                          ? "border-cyan-400/30 bg-cyan-400/10 text-white"
+                          ? "border-amber-400/30 bg-amber-400/10 text-white"
                           : "border-white/10 bg-white/5 text-zinc-300 hover:border-white/20 hover:bg-white/10"
                       }`}
                     >
@@ -219,7 +219,7 @@ export const SupportCenterPage = () => {
                       onClick={() => scrollToSection(section.id)}
                       className={`flex w-full items-center justify-between rounded-2xl border px-4 py-3 text-left transition ${
                         isActive
-                          ? "border-cyan-400/30 bg-cyan-400/10"
+                          ? "border-amber-400/30 bg-amber-400/10"
                           : "border-white/10 bg-black/20 hover:border-white/20 hover:bg-white/5"
                       }`}
                     >
@@ -228,7 +228,7 @@ export const SupportCenterPage = () => {
                         <span className="block text-xs text-zinc-400">{section.description}</span>
                       </span>
                       <ChevronDown
-                        className={`h-4 w-4 transition ${isActive ? "rotate-180 text-cyan-300" : "text-zinc-500"}`}
+                        className={`h-4 w-4 transition ${isActive ? "rotate-180 text-amber-300" : "text-zinc-500"}`}
                       />
                     </button>
                   );
@@ -243,7 +243,7 @@ export const SupportCenterPage = () => {
               className="rounded-[1.75rem] border border-white/10 bg-white/5 p-6 shadow-xl shadow-black/20 backdrop-blur-xl sm:p-8"
             >
               <div className="flex items-start gap-4">
-                <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-cyan-400/15 text-cyan-300">
+                <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-amber-400/15 text-amber-300">
                   <BookOpen className="h-6 w-6" />
                 </div>
                 <div className="space-y-4">
@@ -282,7 +282,7 @@ export const SupportCenterPage = () => {
                   <h2 className="text-2xl font-bold text-white">Hỏi đáp</h2>
                   <p className="mt-2 text-zinc-300">Nhấn vào từng câu hỏi để xem câu trả lời.</p>
                 </div>
-                <CircleHelp className="mt-1 h-6 w-6 shrink-0 text-cyan-300" />
+                <CircleHelp className="mt-1 h-6 w-6 shrink-0 text-amber-300" />
               </div>
 
               <div className="space-y-4">
@@ -303,7 +303,7 @@ export const SupportCenterPage = () => {
                           {faq.question}
                         </span>
                         <ChevronDown
-                          className={`h-5 w-5 shrink-0 text-zinc-400 transition ${isOpen ? "rotate-180 text-cyan-300" : ""}`}
+                          className={`h-5 w-5 shrink-0 text-zinc-400 transition ${isOpen ? "rotate-180 text-amber-300" : ""}`}
                         />
                       </button>
 
@@ -435,7 +435,7 @@ export const SupportCenterPage = () => {
                       <input
                         type="text"
                         placeholder="Nhập tên của bạn"
-                        className="w-full rounded-2xl border border-white/10 bg-black/20 px-4 py-3 text-sm text-white outline-none transition placeholder:text-zinc-500 focus:border-cyan-400/50 focus:bg-black/30"
+                        className="w-full rounded-2xl border border-white/10 bg-black/20 px-4 py-3 text-sm text-white outline-none transition placeholder:text-zinc-500 focus:border-amber-400/50 focus:bg-black/30"
                       />
                     </label>
                     <label className="space-y-2">
@@ -443,7 +443,7 @@ export const SupportCenterPage = () => {
                       <input
                         type="email"
                         placeholder="you@example.com"
-                        className="w-full rounded-2xl border border-white/10 bg-black/20 px-4 py-3 text-sm text-white outline-none transition placeholder:text-zinc-500 focus:border-cyan-400/50 focus:bg-black/30"
+                        className="w-full rounded-2xl border border-white/10 bg-black/20 px-4 py-3 text-sm text-white outline-none transition placeholder:text-zinc-500 focus:border-amber-400/50 focus:bg-black/30"
                       />
                     </label>
                   </div>
@@ -453,7 +453,7 @@ export const SupportCenterPage = () => {
                     <textarea
                       rows={6}
                       placeholder="Mô tả vấn đề hoặc câu hỏi của bạn"
-                      className="w-full rounded-2xl border border-white/10 bg-black/20 px-4 py-3 text-sm text-white outline-none transition placeholder:text-zinc-500 focus:border-cyan-400/50 focus:bg-black/30"
+                      className="w-full rounded-2xl border border-white/10 bg-black/20 px-4 py-3 text-sm text-white outline-none transition placeholder:text-zinc-500 focus:border-amber-400/50 focus:bg-black/30"
                     />
                   </label>
 
@@ -479,9 +479,9 @@ export const SupportCenterPage = () => {
                       href="https://t.me/"
                       target="_blank"
                       rel="noreferrer"
-                      className="flex items-center gap-3 rounded-2xl border border-white/10 bg-black/20 px-4 py-3 text-zinc-200 transition hover:border-cyan-400/30 hover:bg-white/5"
+                      className="flex items-center gap-3 rounded-2xl border border-white/10 bg-black/20 px-4 py-3 text-zinc-200 transition hover:border-amber-400/30 hover:bg-white/5"
                     >
-                      <span className="flex h-10 w-10 items-center justify-center rounded-full bg-cyan-400/15 text-cyan-300">
+                      <span className="flex h-10 w-10 items-center justify-center rounded-full bg-amber-400/15 text-amber-300">
                         <TelegramIcon />
                       </span>
                       <span>
@@ -506,7 +506,7 @@ export const SupportCenterPage = () => {
                     </a>
                   </div>
 
-                  <div className="rounded-2xl border border-white/10 bg-gradient-to-br from-cyan-400/10 to-fuchsia-400/10 p-5 text-sm leading-7 text-zinc-200">
+                  <div className="rounded-2xl border border-white/10 bg-gradient-to-br from-amber-400/10 to-fuchsia-400/10 p-5 text-sm leading-7 text-zinc-200">
                     <div className="flex items-center gap-2 text-white">
                       <UserRound className="h-4 w-4" />
                       Cần hỗ trợ gấp?
