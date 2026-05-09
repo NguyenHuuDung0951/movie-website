@@ -9,23 +9,61 @@ const TABS = ["Tập phim", "Gallery", "OST", "Diễn viên", "Đề xuất"];
 const IMAGE_BASE = "https://image.tmdb.org/t/p/original";
 const ACTOR_IMAGE_BASE = "https://image.tmdb.org/t/p/w500";
 
-const getImageUrl = (path, base = IMAGE_BASE) => {
+type GenreItem = { id?: number | string; name: string };
+type MovieDetailMovie = {
+  id?: number;
+  title?: string;
+  name?: string;
+  backdrop_path?: string | null;
+  poster_path?: string | null;
+  number_of_episodes?: number;
+};
+type CastItem = {
+  id?: number | string;
+  name?: string;
+  character?: string;
+  profile_path?: string | null;
+};
+type VideoItem = { id?: string | number; key?: string; name?: string; site?: string };
+type SimilarItem = {
+  id?: number | string;
+  title?: string;
+  name?: string;
+  poster_path?: string | null;
+};
+
+type Props = {
+  movie?: MovieDetailMovie | null;
+  genres?: GenreItem[];
+  credits?: { cast?: Array<Record<string, unknown>> };
+  videos?: { results?: Array<Record<string, unknown>> };
+  similar?: { results?: Array<Record<string, unknown>> };
+  mediaType: "movie" | "tv";
+};
+
+const getImageUrl = (path?: string | null, base = IMAGE_BASE) => {
   if (!path) return "";
   if (path.startsWith("http://") || path.startsWith("https://")) return path;
   return `${base}/${String(path).replace(/^\/+/, "")}`;
 };
 
-export const MovieDetail = ({ movie, genres = [], credits, videos, similar, mediaType }) => {
+export const MovieDetail = ({ movie, genres = [], credits, videos, similar, mediaType }: Props) => {
   const [activeTab, setActiveTab] = useState("Tập phim");
   const isTv = mediaType === "tv";
   const episodeTotal = Number(movie?.number_of_episodes || 0);
 
-  const actors = useMemo(() => credits?.cast?.slice(0, 12) || [], [credits]);
+  const actors = useMemo(() => ((credits?.cast || []) as CastItem[]).slice(0, 12), [credits]);
   const ostVideos = useMemo(
-    () => (videos?.results || []).filter((video) => video.site === "YouTube").slice(0, 8),
+    () =>
+      ((videos?.results || []) as VideoItem[])
+        .filter((video) => video.site === "YouTube")
+        .slice(0, 8),
     [videos],
   );
-  const similarItems = useMemo(() => similar?.results?.slice(0, 12) || [], [similar]);
+  const similarItems = useMemo(
+    () => ((similar?.results || []) as SimilarItem[]).slice(0, 12),
+    [similar],
+  );
 
   return (
     <main className="mx-auto w-full max-w-7xl space-y-6 px-4 py-6 sm:px-6 sm:py-8">
@@ -71,17 +109,23 @@ export const MovieDetail = ({ movie, genres = [], credits, videos, similar, medi
           {activeTab === "OST" && (
             <div className="space-y-2">
               {ostVideos.length ? (
-                ostVideos.map((video) => (
-                  <a
-                    key={video.id}
-                    href={`https://www.youtube.com/watch?v=${video.key}`}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="block rounded-lg border border-zinc-700 bg-zinc-800/70 px-4 py-3 text-sm text-zinc-200 transition hover:border-zinc-500 hover:bg-zinc-700/70"
-                  >
-                    {video.name}
-                  </a>
-                ))
+                ostVideos.map((video, index) => {
+                  if (!video.key) {
+                    return null;
+                  }
+
+                  return (
+                    <a
+                      key={video.id ?? `${video.key}-${index}`}
+                      href={`https://www.youtube.com/watch?v=${video.key}`}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="block rounded-lg border border-zinc-700 bg-zinc-800/70 px-4 py-3 text-sm text-zinc-200 transition hover:border-zinc-500 hover:bg-zinc-700/70"
+                    >
+                      {video.name || "Video"}
+                    </a>
+                  );
+                })
               ) : (
                 <p className="text-sm text-zinc-400">Chưa có danh sách OST.</p>
               )}
@@ -90,9 +134,9 @@ export const MovieDetail = ({ movie, genres = [], credits, videos, similar, medi
 
           {activeTab === "Diễn viên" && (
             <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
-              {actors.map((actor) => (
+              {actors.map((actor, index) => (
                 <article
-                  key={actor.id}
+                  key={actor.id ?? `${actor.name || "actor"}-${index}`}
                   className="overflow-hidden rounded-lg border border-zinc-800 bg-zinc-800/60"
                 >
                   <img
@@ -101,12 +145,14 @@ export const MovieDetail = ({ movie, genres = [], credits, videos, similar, medi
                         ? getImageUrl(actor.profile_path, ACTOR_IMAGE_BASE)
                         : "https://placehold.co/400x600/1f2937/e5e7eb?text=No+Image"
                     }
-                    alt={actor.name}
+                    alt={actor.name || "Actor"}
                     className="aspect-2/3 w-full object-cover"
                     loading="lazy"
                   />
                   <div className="space-y-1 p-3">
-                    <p className="line-clamp-1 text-sm font-semibold text-zinc-100">{actor.name}</p>
+                    <p className="line-clamp-1 text-sm font-semibold text-zinc-100">
+                      {actor.name || "Unknown actor"}
+                    </p>
                     <p className="line-clamp-1 text-xs text-zinc-400">{actor.character}</p>
                   </div>
                 </article>
@@ -119,10 +165,11 @@ export const MovieDetail = ({ movie, genres = [], credits, videos, similar, medi
               {similarItems.map((item) => {
                 const targetType = mediaType === "tv" ? "tv" : "movie";
                 const itemTitle = item.title || item.name || "Untitled";
+                const targetId = item.id ?? 0;
                 return (
                   <Link
-                    key={item.id}
-                    to={`/${targetType}/${item.id}`}
+                    key={`${targetType}-${targetId}-${itemTitle}`}
+                    to={`/${targetType}/${targetId}`}
                     className="group overflow-hidden rounded-lg border border-zinc-700 bg-zinc-900/60 transition hover:-translate-y-0.5 hover:border-zinc-500"
                   >
                     <img

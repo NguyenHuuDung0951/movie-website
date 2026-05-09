@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { Link } from "react-router-dom";
-import { getMovieDetailPath } from "@/features/movies/routes.ts";
+import { getMovieDetailPath } from "@/features/movies/routes";
 
 interface TrendingMovie {
   id: number;

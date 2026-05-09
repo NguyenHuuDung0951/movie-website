@@ -1,10 +1,31 @@
 import React from "react";
-const getYear = (movie) => {
+
+type MovieMetaMovie = {
+  title?: string;
+  name?: string;
+  original_title?: string;
+  original_name?: string;
+  release_date?: string;
+  first_air_date?: string;
+  overview?: string;
+};
+
+type GenreItem = {
+  id?: number | string;
+  name: string;
+};
+
+type Props = {
+  movie?: MovieMetaMovie | null;
+  genres?: GenreItem[];
+};
+
+const getYear = (movie?: MovieMetaMovie | null) => {
   const date = movie?.release_date || movie?.first_air_date;
   return date ? String(date).slice(0, 4) : "N/A";
 };
 
-export const MovieMeta = ({ movie, genres = [] }) => {
+export const MovieMeta = ({ movie, genres = [] }: Props) => {
   const title = movie?.title || movie?.name || "Untitled";
   const subtitle = movie?.original_title || movie?.original_name || title;
 
@@ -41,7 +62,7 @@ export const MovieMeta = ({ movie, genres = [] }) => {
   );
 };
 
-const Badge = ({ children }) => (
+const Badge = ({ children }: { children: React.ReactNode }) => (
   <span className="rounded-md border border-zinc-700 bg-zinc-800 px-2.5 py-1 text-xs font-semibold text-zinc-100">
     {children}
   </span>

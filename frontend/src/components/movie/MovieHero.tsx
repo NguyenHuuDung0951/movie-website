@@ -5,13 +5,29 @@ import { getWatchPath } from "@/features/movies/routes";
 
 const IMAGE_BASE = "https://image.tmdb.org/t/p/original";
 
-const getImageUrl = (path) => {
+type MovieHeroMovie = {
+  id?: number;
+  title?: string;
+  name?: string;
+  original_title?: string;
+  original_name?: string;
+  backdrop_path?: string | null;
+  poster_path?: string | null;
+  vote_average?: number;
+};
+
+type Props = {
+  movie?: MovieHeroMovie | null;
+  mediaType?: "movie" | "tv";
+};
+
+const getImageUrl = (path?: string | null) => {
   if (!path) return "";
   if (path.startsWith("http://") || path.startsWith("https://")) return path;
   return `${IMAGE_BASE}/${String(path).replace(/^\/+/, "")}`;
 };
 
-export const MovieHero = ({ movie, mediaType = "movie" }) => {
+export const MovieHero = ({ movie, mediaType = "movie" }: Props) => {
   const title = movie?.title || movie?.name || "Untitled";
   const subtitle = movie?.original_title || movie?.original_name || title;
   const watchPath = getWatchPath(mediaType, movie?.id || 0);
@@ -77,7 +93,7 @@ export const MovieHero = ({ movie, mediaType = "movie" }) => {
   );
 };
 
-const ActionIconButton = ({ label, icon }) => {
+const ActionIconButton = ({ label, icon }: { label: string; icon: React.ReactNode }) => {
   return (
     <button
       type="button"

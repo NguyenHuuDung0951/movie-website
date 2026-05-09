@@ -1,5 +1,21 @@
 import React from "react";
 
+type GenreOption = { id: number | string; name: string };
+type RegionOption = { value: string; label: string };
+
+type Props = {
+  selectedYear: string;
+  selectedGenre: string;
+  selectedRegion: string;
+  years: number[];
+  genres: GenreOption[];
+  regions: RegionOption[];
+  onYearChange: (value: string) => void;
+  onGenreChange: (value: string) => void;
+  onRegionChange: (value: string) => void;
+  disabled: boolean;
+};
+
 export const FilterBar = ({
   selectedYear,
   selectedGenre,
@@ -11,7 +27,7 @@ export const FilterBar = ({
   onGenreChange,
   onRegionChange,
   disabled,
-}) => {
+}: Props) => {
   const inputClassName =
     "h-11 w-full rounded-xl border border-zinc-700 bg-zinc-900/90 px-3 text-sm text-zinc-100 outline-none transition focus:border-zinc-400 disabled:cursor-not-allowed disabled:opacity-60";
 

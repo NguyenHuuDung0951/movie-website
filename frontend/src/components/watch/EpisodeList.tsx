@@ -1,6 +1,19 @@
 import React from "react";
 
-export const EpisodeList = ({ seasons, selectedSeason, onSeasonChange }) => {
+type Season = {
+  id?: number;
+  season_number: number;
+  name?: string;
+  episode_count?: number;
+};
+
+type Props = {
+  seasons: Season[];
+  selectedSeason: number;
+  onSeasonChange: (season: number) => void;
+};
+
+export const EpisodeList = ({ seasons, selectedSeason, onSeasonChange }: Props) => {
   if (!seasons?.length) {
     return null;
   }
