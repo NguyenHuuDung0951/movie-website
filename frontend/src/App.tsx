@@ -1,5 +1,5 @@
 import React from "react";
-import { Navigate, Route, Routes } from "react-router-dom";
+import { Navigate, Route, Routes, useLocation } from "react-router-dom";
 import { useAuth } from "@/hooks/use-auth";
 import { HomePage } from "@/pages/home-page";
 import { LoginPage } from "@/pages/login-page";
@@ -10,6 +10,10 @@ import { MoviesPage } from "@/pages/MoviesPage";
 import { TvSeriesPage } from "@/pages/TvSeriesPage";
 import { WatchPage } from "@/pages/WatchPage";
 import { ProfilePage } from "@/pages/profile-page";
+import { AdminMoviesPage } from "@/pages/admin-movies-page";
+import { AdminAddMoviePage } from "@/pages/admin-add-movie-page";
+import { AdminMovieDetailsPage } from "@/pages/admin-movie-details-page";
+import { SupportCenterPage } from "@/pages/support-center-page";
 
 type ProtectedRouteProps = {
   children: React.ReactNode;
@@ -27,8 +31,15 @@ const GuestRoute = ({ children }: ProtectedRouteProps) => {
 };
 
 const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
+  const location = useLocation();
   const { authState, meQuery } = useAuth();
   const token = authState.token || localStorage.getItem("token");
+  const bypassAuth = import.meta.env.VITE_BYPASS_AUTH === "true";
+
+  // Allow opening admin UI without backend auth in local/dev mode.
+  if (bypassAuth && location.pathname.startsWith("/admin")) {
+    return <>{children}</>;
+  }
 
   if (!token) {
     return <Navigate to="/login" replace />;
@@ -75,7 +86,39 @@ export const App = () => {
         path="/admin"
         element={
           <ProtectedRoute>
+            <Navigate to="/admin/dashboard" replace />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/admin/dashboard"
+        element={
+          <ProtectedRoute>
             <AdminPage />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/admin/movies"
+        element={
+          <ProtectedRoute>
+            <AdminMoviesPage />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/admin/movies/new"
+        element={
+          <ProtectedRoute>
+            <AdminAddMoviePage />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/admin/movies/:id"
+        element={
+          <ProtectedRoute>
+            <AdminMovieDetailsPage />
           </ProtectedRoute>
         }
       />
@@ -91,6 +134,7 @@ export const App = () => {
       <Route path="/moviecaroucelalone" element={<MoviesPage />} />
       <Route path="/tv-series" element={<TvSeriesPage />} />
       <Route path="/moviecaroucelseries" element={<TvSeriesPage />} />
+      <Route path="/support-center" element={<SupportCenterPage />} />
       <Route path="/watch/:type/:id" element={<WatchPage />} />
       <Route path="/:mediaType/:id" element={<MovieDetailPage />} />
       <Route path="*" element={<Navigate to="/" replace />} />

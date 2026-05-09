@@ -17,9 +17,20 @@ const TMDB_API_URL = "https://api.themoviedb.org/3";
 const TMDB_IMAGE_ORIGINAL = "https://image.tmdb.org/t/p/original";
 const TMDB_IMAGE_POSTER = "https://image.tmdb.org/t/p/w342";
 
+const normalizeEnvValue = (value: string | undefined) => {
+  const normalized = String(value || "").trim();
+  if (!normalized || normalized === "undefined" || normalized === "null") {
+    return undefined;
+  }
+
+  return normalized;
+};
+
 const getTmdbAuth = () => {
-  const readAccessToken = import.meta.env.VITE_TMDB_READ_ACCESS_TOKEN as string | undefined;
-  const apiKey = import.meta.env.VITE_TMDB_API_KEY as string | undefined;
+  const readAccessToken = normalizeEnvValue(
+    import.meta.env.VITE_TMDB_READ_ACCESS_TOKEN as string | undefined,
+  );
+  const apiKey = normalizeEnvValue(import.meta.env.VITE_TMDB_API_KEY as string | undefined);
 
   if (!readAccessToken && !apiKey) {
     throw new Error("Thiếu VITE_TMDB_READ_ACCESS_TOKEN hoặc VITE_TMDB_API_KEY.");
