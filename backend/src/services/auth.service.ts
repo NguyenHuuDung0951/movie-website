@@ -13,19 +13,23 @@ const createAuthToken = (userId: string, role: UserRole): string =>
   });
 
 export const registerUser = async (payload: {
-  name: string;
+  username: string;
   email: string;
   password: string;
 }) => {
-  const existingUser = await User.findOne({ email: payload.email });
-
-  if (existingUser) {
+  const existingEmail = await User.findOne({ email: payload.email });
+  if (existingEmail) {
     throw new HttpError(409, "Email already exists");
+  }
+
+  const existingUsername = await User.findOne({ username: payload.username });
+  if (existingUsername) {
+    throw new HttpError(409, "Username already exists");
   }
 
   const hashedPassword = await bcrypt.hash(payload.password, 10);
   const user = await User.create({
-    name: payload.name,
+    username: payload.username,
     email: payload.email,
     password: hashedPassword,
     role: "user",
@@ -36,7 +40,7 @@ export const registerUser = async (payload: {
   return {
     message: "Register successful",
     token,
-    user: { id: user.id, name: user.name, email: user.email, role: user.role },
+    user: { id: user.id, username: user.username, email: user.email, role: user.role },
   };
 };
 
@@ -57,7 +61,7 @@ export const loginUser = async (payload: { email: string; password: string }) =>
   return {
     message: "Login successful",
     token,
-    user: { id: user.id, name: user.name, email: user.email, role: user.role },
+    user: { id: user.id, username: user.username, email: user.email, role: user.role },
   };
 };
 

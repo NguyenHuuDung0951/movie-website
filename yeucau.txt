@@ -1,0 +1,85 @@
+Since you've refined your requirements, focusing on a **Spotify-like playlist system** using **MongoDB** while storing essential movie metadata for quick rendering, here is the updated architectural plan.
+
+### 1. Database Schema Design (Mongoose/MongoDB)
+
+By storing the 4 key fields (`tmdbId`, `mediaType`, `title`, and `posterPath`), you eliminate the need for a separate `Movie` collection and reduce the number of API calls to TMDb when loading a user's profile.
+
+#### User Schema
+
+This handles identity and access control.
+
+```javascript
+const userSchema = new mongoose.Schema({
+  username: { type: String, required: true, unique: true },
+  email: { type: String, required: true, unique: true },
+  password: { type: String, required: true },
+  role: { type: String, enum: ['user', 'admin'], default: 'user' }
+}, { timestamps: true });
+
+```
+
+#### Playlist Schema
+
+Instead of a single "favorites" list, this allows users to create multiple collections.
+
+```javascript
+const playlistSchema = new mongoose.Schema({
+  userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
+  name: { type: String, required: true }, // e.g., "Must Watch", "Weekend Vibes"
+  description: { type: String },
+  movies: [
+    {
+      tmdbId: { type: Number, required: true },
+      mediaType: { type: String, enum: ['movie', 'tv'], required: true },
+      title: { type: String, required: true },
+      posterPath: { type: String, required: true }
+    }
+  ],
+  isPublic: { type: Boolean, default: false }
+}, { timestamps: true });
+
+```
+
+---
+
+### 2. Key Confirmations & Logic
+
+* **Deleting Movie/Review Models:**
+* **Decision:** **Confirmed.** Since you are "embedding" the movie data directly into the playlist array, a standalone `Movie` model is redundant.
+* **Benefit:** This "Denormalization" strategy is common in MongoDB. It makes your `GET /playlists/:id` query extremely fast because all data is in one document.
+
+
+* **The "Spotify" Approach:**
+* By using a separate `Playlist` collection, you can easily implement features like "Top 10 Playlists" or "Public Playlists" later.
+* The `mediaType` field is crucial because TMDb has different endpoints for `/movie/` and `/tv/`. Saving it now prevents bugs later when you try to link back to the movie details page.
+
+
+* **Performance vs. Simplicity:**
+* As you mentioned, you don't need to worry about performance yet. Storing `title` and `posterPath` multiple times (if a movie is in 10 different playlists) uses a tiny bit more disk space but makes your Frontend much smoother.
+
+
+
+---
+
+### 3. Suggested API Implementation (Next Steps)
+
+With this structure, your backend logic will be very straightforward:
+
+| Method | Endpoint | Description |
+| --- | --- | --- |
+| **POST** | `/api/auth/register` | Create a new user (default role: 'user'). |
+| **GET** | `/api/playlists` | Fetch all playlists belonging to the logged-in user. |
+| **POST** | `/api/playlists` | Create a new empty playlist (e.g., "My Favorites"). |
+| **PATCH** | `/api/playlists/:id/add` | Push a movie object into the `movies` array. |
+| **PATCH** | `/api/playlists/:id/remove` | Pull a movie from the array using `tmdbId`. |
+| **DELETE** | `/api/playlists/:id` | Delete an entire playlist. |
+
+### 4. Authorization (RBAC)
+
+Since you mentioned **Role-based access**, you should implement a middleware that checks:
+
+1. **Is Authenticated?** (Does the user have a valid JWT?)
+2. **Is Owner?** (Does the `userId` in the Playlist document match the `id` in the JWT?)
+3. **Is Admin?** (Admins can bypass ownership checks to moderate content).
+
+This setup is clean, easy to scale, and perfectly fits your "Spotify for Movies" vision. Would you like me to provide a sample **Express.js controller** for adding a movie to a playlist?

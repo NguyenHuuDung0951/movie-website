@@ -25,5 +25,9 @@
     "husky": "^9.1.7",
     "lint-staged": "^16.4.0",
     "prettier": "^3.8.2"
+  },
+  "dependencies": {
+    "eslint": "^8.57.1",
+    "lightningcss": "^1.32.0"
   }
 }

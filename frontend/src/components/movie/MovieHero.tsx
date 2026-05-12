@@ -2,6 +2,8 @@ import React from "react";
 import { Heart, MessageCircle, Play, Plus, Share2 } from "lucide-react";
 import { Link } from "react-router-dom";
 import { getWatchPath } from "@/features/movies/routes";
+import { AddToPlaylistModal } from "./AddToPlaylistModal";
+import { PlaylistMovie } from "@/features/playlists/playlist-api";
 
 const IMAGE_BASE = "https://image.tmdb.org/t/p/original";
 
@@ -28,9 +30,18 @@ const getImageUrl = (path?: string | null) => {
 };
 
 export const MovieHero = ({ movie, mediaType = "movie" }: Props) => {
+  const [isPlaylistModalOpen, setIsPlaylistModalOpen] = React.useState(false);
+
   const title = movie?.title || movie?.name || "Untitled";
   const subtitle = movie?.original_title || movie?.original_name || title;
   const watchPath = getWatchPath(mediaType, movie?.id || 0);
+
+  const playlistMovieData: PlaylistMovie = {
+    tmdbId: movie?.id || 0,
+    mediaType: mediaType,
+    title: title,
+    posterPath: movie?.poster_path || "",
+  };
 
   return (
     <section className="relative overflow-hidden rounded-2xl bg-zinc-950">
@@ -74,7 +85,11 @@ export const MovieHero = ({ movie, mediaType = "movie" }: Props) => {
               Xem trailer
             </Link>
             <ActionIconButton label="Yêu thích" icon={<Heart className="h-4 w-4" />} />
-            <ActionIconButton label="Thêm vào" icon={<Plus className="h-4 w-4" />} />
+            <ActionIconButton
+              label="Thêm vào"
+              icon={<Plus className="h-4 w-4" />}
+              onClick={() => setIsPlaylistModalOpen(true)}
+            />
             <ActionIconButton label="Chia sẻ" icon={<Share2 className="h-4 w-4" />} />
             <ActionIconButton label="Bình luận" icon={<MessageCircle className="h-4 w-4" />} />
           </div>
@@ -89,14 +104,29 @@ export const MovieHero = ({ movie, mediaType = "movie" }: Props) => {
           />
         </div>
       </div>
+
+      <AddToPlaylistModal
+        isOpen={isPlaylistModalOpen}
+        onClose={() => setIsPlaylistModalOpen(false)}
+        movie={playlistMovieData}
+      />
     </section>
   );
 };
 
-const ActionIconButton = ({ label, icon }: { label: string; icon: React.ReactNode }) => {
+const ActionIconButton = ({
+  label,
+  icon,
+  onClick,
+}: {
+  label: string;
+  icon: React.ReactNode;
+  onClick?: () => void;
+}) => {
   return (
     <button
       type="button"
+      onClick={onClick}
       className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-3 py-2 text-xs font-medium text-zinc-100 backdrop-blur transition hover:scale-105 hover:bg-white/20 sm:text-sm"
       aria-label={label}
     >

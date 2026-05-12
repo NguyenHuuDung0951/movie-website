@@ -8,7 +8,7 @@ export const loginApi = async (payload: { email: string; password: string }) => 
 };
 
 export const registerApi = async (payload: {
-  name: string;
+  username: string;
   email: string;
   password: string;
 }) => {
