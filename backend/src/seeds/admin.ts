@@ -21,13 +21,14 @@ const createAdminUser = async () => {
     const hashedPassword = await bcrypt.hash(adminPassword, 10);
 
     const admin = await User.create({
-      name: "Admin",
+      username: "admin",
       email: adminEmail,
       password: hashedPassword,
       role: "admin",
     });
 
     console.log("✓ Admin user created successfully");
+    console.log(`  Username: ${admin.username}`);
     console.log(`  Email: ${adminEmail}`);
     console.log(`  Password: ${adminPassword}`);
     console.log("\n⚠️  IMPORTANT: Please change this password after first login!");

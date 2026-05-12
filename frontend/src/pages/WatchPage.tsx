@@ -3,6 +3,8 @@ import { useEffect, useMemo, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { Footer } from "@/components/layout/footer";
 import { Header } from "@/components/layout/header";
+import { AddToPlaylistModal } from "@/components/movie/AddToPlaylistModal";
+import { PlaylistMovie } from "@/features/playlists/playlist-api";
 import { EpisodeList } from "@/components/watch/EpisodeList";
 import { MovieSidebar } from "@/components/watch/MovieSidebar";
 import { VideoPlayer } from "@/components/watch/VideoPlayer";
@@ -75,6 +77,7 @@ export const WatchPage = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [selectedSeason, setSelectedSeason] = useState(1);
+  const [isPlaylistModalOpen, setIsPlaylistModalOpen] = useState(false);
 
   useEffect(() => {
     let active = true;
@@ -136,6 +139,13 @@ export const WatchPage = () => {
   const selectedVideo = useMemo(() => {
     return pickPlayableWatchVideo(payload?.videos);
   }, [payload]);
+
+  const playlistMovieData: PlaylistMovie = {
+    tmdbId: Number(id) || 0,
+    mediaType: mediaType,
+    title: title,
+    posterPath: payload?.detail?.poster_path || "",
+  };
 
   if (loading) {
     return (
@@ -239,6 +249,13 @@ export const WatchPage = () => {
                     >
                       Xem trang chi tiết
                     </Link>
+                    <button
+                      type="button"
+                      onClick={() => setIsPlaylistModalOpen(true)}
+                      className="rounded-lg border border-yellow-400/50 bg-yellow-400/10 px-3 py-2 text-sm font-semibold text-yellow-400 transition hover:bg-yellow-400/20"
+                    >
+                      + Thêm vào Playlist
+                    </button>
                   </div>
                 </div>
               </div>
@@ -283,6 +300,11 @@ export const WatchPage = () => {
         </div>
       </main>
       <Footer />
+      <AddToPlaylistModal
+        isOpen={isPlaylistModalOpen}
+        onClose={() => setIsPlaylistModalOpen(false)}
+        movie={playlistMovieData}
+      />
     </>
   );
 };

@@ -1,7 +1,10 @@
 import { z } from "zod";
 
 export const registerSchema = z.object({
-  name: z.string().min(2, "Tên phải có ít nhất 2 ký tự"),
+  username: z
+    .string()
+    .min(2, "Tên người dùng phải có ít nhất 2 ký tự")
+    .max(30, "Tên người dùng tối đa 30 ký tự"),
   email: z.email("Email không hợp lệ"),
   password: z.string().min(6, "Mật khẩu phải có ít nhất 6 ký tự"),
 });

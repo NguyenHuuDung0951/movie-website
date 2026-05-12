@@ -4,6 +4,8 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 import { getMovieDetailPath } from "@/features/movies/routes";
 
+import { getApiKey } from "@/services/tmdb";
+
 interface TrendingMovie {
   id: number;
   title?: string;
@@ -22,7 +24,7 @@ interface TrendingResponse {
 }
 
 const fetchTrendingMovies = async (): Promise<TrendingMovie[]> => {
-  const apiKey = import.meta.env.VITE_TMDB_API_KEY;
+  const apiKey = getApiKey();
   const response = await axios.get<TrendingResponse>(
     `https://api.themoviedb.org/3/trending/movie/day?api_key=${apiKey}`,
   );

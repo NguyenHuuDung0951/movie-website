@@ -5,7 +5,7 @@ import { getCurrentUser, loginUser, registerUser } from "../services/auth.servic
 import { HttpError } from "../utils/http-error";
 
 const registerSchema = z.object({
-  name: z.string().min(2),
+  username: z.string().min(2).max(30),
   email: z.email(),
   password: z.string().min(6),
 });
