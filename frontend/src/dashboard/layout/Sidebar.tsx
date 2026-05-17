@@ -10,6 +10,7 @@ import {
   Clapperboard,
   Activity,
 } from "lucide-react";
+import { FaPlay } from "react-icons/fa";
 
 interface SidebarProps {
   isOpen: boolean;
@@ -44,10 +45,14 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
         }`}
       >
         <div className="flex h-16 items-center justify-between px-6 border-b border-zinc-800">
-          <Link to="/" className="flex items-center gap-2 text-rose-600">
-            <Clapperboard className="h-8 w-8" />
+          <Link to="/" className="flex items-center gap-3">
+            <span className="group relative flex h-12 w-12 shrink-0 items-center justify-center rounded-full border border-amber-400/40 bg-gradient-to-br from-[#241b08] via-[#3a2a08] to-[#0e0a03] shadow-[0_0_0_1px_rgba(251,191,36,0.15),0_0_25px_rgba(251,191,36,0.18)] transition duration-300 hover:shadow-[0_0_0_1px_rgba(251,191,36,0.28),0_0_32px_rgba(251,191,36,0.26)] sm:h-14 sm:w-14">
+              <span className="absolute inset-1 rounded-full border border-amber-300/20" />
+              <span className="absolute inset-2 rounded-full border border-amber-200/10" />
+              <FaPlay className="relative left-0.5 text-lg text-amber-300" />
+            </span>
             <span className="text-xl font-bold tracking-wider text-white">
-              CINEMA<span className="text-rose-600">VERSA</span>
+              CINEMA<span className="text-amber-500">VERSA</span>
             </span>
           </Link>
           <button className="text-zinc-400 hover:text-white lg:hidden" onClick={onClose}>
@@ -88,7 +93,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
             className="flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-rose-500 hover:bg-rose-500/10 transition-colors"
           >
             <LogOut size={18} />
-            Đăng xuất
+            Quay lại trang chính
           </Link>
         </div>
       </aside>
