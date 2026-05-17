@@ -8,6 +8,7 @@ import { clearToken, loginApi, persistToken, registerApi } from "@/features/auth
 import { LoginFormInput, RegisterFormInput } from "@/features/auth/schemas";
 import { User } from "@/features/auth/types";
 
+// custom hook to auth user, use useDispatch and useSelector to verify user
 export const useAuth = () => {
   const dispatch = useDispatch();
   const authState = useSelector((state: RootState) => state.auth);
