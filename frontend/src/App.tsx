@@ -78,7 +78,6 @@ const AdminRoute = ({ children }: ProtectedRouteProps) => {
     );
   }
 
-  
   if (!authState.user) {
     return <Navigate to="/login" replace />;
   }
@@ -142,7 +141,7 @@ export const App = () => {
           // only when login with account admin then can view dashboard
           <ProtectedRoute>
             <Navigate to="/admin/dashboard" replace />
-          </AdminRoute>
+          </ProtectedRoute>
         }
       />
       <Route
