@@ -53,6 +53,7 @@ const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
     );
   }
 
+  
   if (!authState.user) {
     return <Navigate to="/login" replace />;
   }
@@ -61,6 +62,7 @@ const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
 };
 
 export const App = () => {
+  // verify user
   useAuth();
 
   return (
@@ -85,6 +87,7 @@ export const App = () => {
       <Route
         path="/admin"
         element={
+          // only when login with account admin then can view dashboard
           <ProtectedRoute>
             <Navigate to="/admin/dashboard" replace />
           </ProtectedRoute>
