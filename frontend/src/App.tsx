@@ -1,6 +1,8 @@
 import React from "react";
-import { Navigate, Route, Routes, useLocation } from "react-router-dom";
+import { Link, Navigate, Route, Routes, useLocation } from "react-router-dom";
 import { useAuth } from "@/hooks/use-auth";
+import { Header } from "@/components/layout/header";
+import { Footer } from "@/components/layout/footer";
 import { HomePage } from "@/pages/home-page";
 import { LoginPage } from "@/pages/login-page";
 import { RegisterPage } from "@/pages/register-page";
@@ -31,6 +33,29 @@ const GuestRoute = ({ children }: ProtectedRouteProps) => {
 };
 
 const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
+  const { authState, meQuery } = useAuth();
+  const token = authState.token || localStorage.getItem("token");
+
+  if (!token) {
+    return <Navigate to="/login" replace />;
+  }
+
+  if (!authState.user && meQuery.isLoading) {
+    return (
+      <main className="mx-auto mt-16 w-full max-w-3xl rounded-2xl border border-zinc-800 bg-[#151618]/92 px-6 py-8 text-zinc-300">
+        Đang tải thông tin người dùng...
+      </main>
+    );
+  }
+
+  if (!authState.user) {
+    return <Navigate to="/login" replace />;
+  }
+
+  return <>{children}</>;
+};
+
+const AdminRoute = ({ children }: ProtectedRouteProps) => {
   const location = useLocation();
   const { authState, meQuery } = useAuth();
   const token = authState.token || localStorage.getItem("token");
@@ -57,8 +82,35 @@ const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
     return <Navigate to="/login" replace />;
   }
 
+  // Role-based check: must be admin
+  if (authState.user.role !== "admin") {
+    return <ForbiddenPage />;
+  }
+
   return <>{children}</>;
 };
+
+const ForbiddenPage = () => (
+  <>
+    <Header />
+    <main className="mx-auto mt-16 w-full max-w-xl px-4 text-center">
+      <div className="rounded-2xl border border-red-500/30 bg-zinc-900 p-8">
+        <h1 className="text-4xl font-black text-red-400">403</h1>
+        <p className="mt-3 text-lg font-semibold text-zinc-100">Truy cập bị từ chối</p>
+        <p className="mt-2 text-sm text-zinc-400">
+          Bạn không có quyền truy cập trang này. Chỉ tài khoản quản trị viên mới được phép.
+        </p>
+        <Link
+          to="/"
+          className="mt-6 inline-block rounded-lg border border-zinc-700 bg-zinc-800 px-5 py-2.5 text-sm font-semibold text-zinc-100 transition hover:bg-zinc-700"
+        >
+          Về trang chủ
+        </Link>
+      </div>
+    </main>
+    <Footer />
+  </>
+);
 
 export const App = () => {
   useAuth();
@@ -85,41 +137,41 @@ export const App = () => {
       <Route
         path="/admin"
         element={
-          <ProtectedRoute>
+          <AdminRoute>
             <Navigate to="/admin/dashboard" replace />
-          </ProtectedRoute>
+          </AdminRoute>
         }
       />
       <Route
         path="/admin/dashboard"
         element={
-          <ProtectedRoute>
+          <AdminRoute>
             <AdminPage />
-          </ProtectedRoute>
+          </AdminRoute>
         }
       />
       <Route
         path="/admin/movies"
         element={
-          <ProtectedRoute>
+          <AdminRoute>
             <AdminMoviesPage />
-          </ProtectedRoute>
+          </AdminRoute>
         }
       />
       <Route
         path="/admin/movies/new"
         element={
-          <ProtectedRoute>
+          <AdminRoute>
             <AdminAddMoviePage />
-          </ProtectedRoute>
+          </AdminRoute>
         }
       />
       <Route
         path="/admin/movies/:id"
         element={
-          <ProtectedRoute>
+          <AdminRoute>
             <AdminMovieDetailsPage />
-          </ProtectedRoute>
+          </AdminRoute>
         }
       />
       <Route

@@ -48,5 +48,12 @@ declare module "@/services/watch" {
     trending: { results?: Array<Record<string, unknown>> };
   }>;
 
-  export function pickYoutubeWatchKey(videos: unknown): string;
+  export function pickPlayableWatchVideo(videos: unknown): {
+    key: string;
+    site: string;
+    type?: string;
+    name?: string;
+    embedUrl: string;
+    watchUrl: string;
+  } | null;
 }

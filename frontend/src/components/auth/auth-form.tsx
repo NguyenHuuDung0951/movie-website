@@ -31,7 +31,7 @@ export const AuthForm = ({ mode }: Props) => {
       navigate("/");
     } else {
       await registerMutation.mutateAsync(values as RegisterFormInput);
-      navigate("/login");
+      navigate("/");
     }
   };
 

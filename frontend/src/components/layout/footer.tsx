@@ -45,7 +45,7 @@ export const Footer = () => {
 
                 <span>
                   <span className="block text-xl font-black tracking-[0.12em] text-white uppercase sm:text-2xl sm:tracking-[0.18em]">
-                    CinemaVersa
+                    Cinema<span className="text-amber-500">VERSA</span>
                   </span>
                   <span className="mt-1 block text-center text-sm text-gray-400 sm:text-left">
                     Phim hay trên thế giới
