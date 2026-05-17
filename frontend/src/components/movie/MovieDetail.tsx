@@ -1,7 +1,7 @@
 import React from "react";
 import { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
-import { EpisodeList } from "./EpisodeList";
+import { EpisodeList } from "../watch/EpisodeList";
 import { MovieHero } from "./MovieHero";
 import { MovieMeta } from "./MovieMeta";
 

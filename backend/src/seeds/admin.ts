@@ -31,7 +31,7 @@ const createAdminUser = async () => {
     console.log(`  Username: ${admin.username}`);
     console.log(`  Email: ${adminEmail}`);
     console.log(`  Password: ${adminPassword}`);
-    console.log("\n⚠️  IMPORTANT: Please change this password after first login!");
+    console.log("\nIMPORTANT: Please change this password after first login!");
 
     process.exit(0);
   } catch (error) {

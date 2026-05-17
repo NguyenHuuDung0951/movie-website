@@ -23,6 +23,10 @@ export const useAuth = () => {
 
   const registerMutation = useMutation({
     mutationFn: (payload: RegisterFormInput) => registerApi(payload),
+    onSuccess: (data) => {
+      persistToken(data.token);
+      dispatch(setAuth({ token: data.token, user: data.user }));
+    },
   });
 
   const meQuery = useQuery({
@@ -32,9 +36,8 @@ export const useAuth = () => {
       if (!token) {
         return null;
       }
-      const response = await api.get<{ user: User }>("/auth/me", {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      // Authorization header is attached automatically by the axios interceptor in lib/api.ts
+      const response = await api.get<{ user: User }>("/auth/me");
       dispatch(setAuth({ token, user: response.data.user }));
       return response.data.user;
     },
