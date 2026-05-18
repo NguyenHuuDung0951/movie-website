@@ -113,7 +113,7 @@ export const HomeContent = ({ hotMovies, newMovies }: Props) => {
         <div className="mb-5 flex items-center justify-between gap-3">
           <h2 className="text-2xl font-black text-zinc-100">Phim Hot</h2>
           <Link
-            to="/"
+            to="/movies"
             className="text-sm font-semibold text-zinc-400 underline-offset-2 hover:text-zinc-100 hover:underline"
           >
             Xem tất cả
@@ -130,7 +130,7 @@ export const HomeContent = ({ hotMovies, newMovies }: Props) => {
         <div className="mb-5 flex items-center justify-between gap-3">
           <h2 className="text-2xl font-black text-zinc-100">Phim mới cập nhật</h2>
           <Link
-            to="/"
+            to="/movies"
             className="text-sm font-semibold
            text-zinc-400 underline-offset-2 hover:text-zinc-100 hover:underline"
           >

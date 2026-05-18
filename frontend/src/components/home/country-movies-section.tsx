@@ -74,12 +74,12 @@ export const CountryMoviesSection = ({ groups }: Props) => {
             <article key={group.key} className="space-y-3">
               <div className="flex items-center justify-between gap-3">
                 <h3 className="text-lg font-bold text-zinc-100 sm:text-xl">{group.title}</h3>
-                <button
-                  type="button"
+                <Link
+                  to="/movies"
                   className="text-sm font-semibold text-zinc-400 underline-offset-2 transition hover:text-zinc-100 hover:underline"
                 >
                   Xem tất cả
-                </button>
+                </Link>
               </div>
 
               <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-5">

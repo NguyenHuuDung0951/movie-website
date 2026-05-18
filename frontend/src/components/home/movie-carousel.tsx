@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { MovieCard } from "./movie-card";
 import { getMovieDetailPath } from "../../features/movies/routes";
 
@@ -22,12 +23,12 @@ export const MovieCarousel = ({ title, movies }: Props) => {
           {title}
           <span className="text-lg text-zinc-400"></span>
         </h2>
-        <button
-          type="button"
+        <Link
+          to="/movies"
           className="text-sm font-semibold text-zinc-400 underline-offset-2 transition hover:text-zinc-100 hover:underline"
         >
           Xem tất cả
-        </button>
+        </Link>
       </div>
 
       <div className="scrollbar-hide overflow-x-auto">
