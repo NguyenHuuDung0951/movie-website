@@ -6,7 +6,7 @@ import { FaPlay } from "react-icons/fa6";
 const menuItems = [
   { label: "Phim Bộ", href: "/tv-series" },
   { label: "Phim Lẻ", href: "/movies" },
-  { label: "Thể loại", href: "/" },
+  { label: "Thể loại", href: "/genre/action" },
   { label: "Hỗ trợ", href: "/support-center" },
 ];
 

@@ -16,6 +16,7 @@ import { AdminMoviesPage } from "@/pages/admin-movies-page";
 import { AdminAddMoviePage } from "@/pages/admin-add-movie-page";
 import { AdminMovieDetailsPage } from "@/pages/admin-movie-details-page";
 import { SupportCenterPage } from "@/pages/support-center-page";
+import { GenreMoviesPage } from "@/pages/GenreMoviesPage";
 
 type ProtectedRouteProps = {
   children: React.ReactNode;
@@ -189,6 +190,7 @@ export const App = () => {
       <Route path="/tv-series" element={<TvSeriesPage />} />
       <Route path="/moviecaroucelseries" element={<TvSeriesPage />} />
       <Route path="/support-center" element={<SupportCenterPage />} />
+      <Route path="/genre/:genreSlug" element={<GenreMoviesPage />} />
       <Route path="/watch/:type/:id" element={<WatchPage />} />
       <Route path="/:mediaType/:id" element={<MovieDetailPage />} />
       <Route path="*" element={<Navigate to="/" replace />} />
